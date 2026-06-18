@@ -1,199 +1,1110 @@
-
+<!DOCTYPE html>
+<html lang="fa" dir="ltr">
+<head>
+<meta charset="UTF-8"/>
+<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+<title>Kassu Chronicles — The Forgotten Civilization</title>
+<link rel="preconnect" href="https://fonts.googleapis.com"/>
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin/>
+<link href="https://fonts.googleapis.com/css2?family=Cinzel+Decorative:wght@400;700&family=Cinzel:wght@400;600&family=IM+Fell+English:ital@0;1&family=Crimson+Pro:ital,wght@0,300;0,400;1,300;1,400&display=swap" rel="stylesheet"/>
 <style>
-@import url('https://fonts.googleapis.com/css2?family=IM+Fell+English:ital@0;1&family=Inconsolata:wght@300;400;500&display=swap');
-*{box-sizing:border-box;margin:0;padding:0;}
-#kr{width:100%;font-family:'Inconsolata',monospace;color:#111;}
-#mc{position:relative;width:100%;height:420px;background:#080808;border:0.5px solid #222;border-radius:12px;overflow:hidden;cursor:crosshair;}
-#ms{position:absolute;top:0;left:0;width:100%;height:100%;}
-#hint{position:absolute;bottom:14px;left:50%;transform:translateX(-50%);font-size:10px;color:#333;letter-spacing:.1em;text-transform:uppercase;pointer-events:none;white-space:nowrap;}
-#mtitle{position:absolute;top:14px;left:16px;font-family:'IM Fell English',serif;font-size:11px;color:#282828;letter-spacing:.04em;pointer-events:none;line-height:1.6;}
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
 
-#panel{margin-top:10px;overflow:hidden;max-height:0;opacity:0;transition:max-height .5s ease,opacity .3s ease;}
-#panel.open{max-height:900px;opacity:1;}
-.pcard{padding:1.1rem 1.5rem;border:0.5px solid #ddd;border-radius:12px;background:#fff;}
-.sname{font-family:'IM Fell English',serif;font-size:18px;color:#111;margin-bottom:2px;}
-.scoords{font-size:10px;color:#888;letter-spacing:.1em;text-transform:uppercase;margin-bottom:8px;}
-.ssource{font-size:11px;color:#999;font-style:italic;margin-bottom:10px;padding-bottom:10px;border-bottom:0.5px solid #eee;}
-.snote{font-size:13px;line-height:1.9;color:#333;}
-.diagram-img{display:block;width:auto;max-width:220px;max-height:280px;margin:14px auto;filter:invert(1);}
+  :root {
+    --ink: #0a0806;
+    --deep: #100d0a;
+    --parchment: #c4a96e;
+    --parchment-dim: #8a7248;
+    --parchment-pale: #e8d9b8;
+    --rust: #8b3a1a;
+    --rust-bright: #c25220;
+    --steel: #2a4a4e;
+    --steel-light: #3d6a70;
+    --amber: #e8c87a;
+    --amber-dim: #a8883a;
+    --shadow: rgba(0,0,0,0.85);
+    --grime: rgba(10,8,6,0.92);
+    --timeline-w: 420px;
+  }
 
-.strata-nav{display:flex;gap:6px;margin-bottom:12px;flex-wrap:wrap;}
-.sb{font-family:'Inconsolata',monospace;font-size:10px;letter-spacing:.06em;text-transform:uppercase;padding:4px 10px;border:1px solid #000;border-radius:6px;background:#fff;color:#000;cursor:pointer;transition:all .12s;}
-.sb.on{border-color:#000;color:#fff;background:#000;}
-.sb:hover:not(.on){color:#000;background:#f2f2f2;}
+  html, body {
+    height: 100%;
+    background: var(--ink);
+    color: var(--parchment);
+    font-family: 'Crimson Pro', serif;
+    overflow: hidden;
+  }
 
-.darkbox{position:relative;width:100%;background:#080808;border-radius:8px;overflow:hidden;padding:1.3rem 1.5rem;cursor:none;user-select:none;}
-.darkbox-inner{font-family:'Inconsolata',monospace;font-size:13px;line-height:2.2;color:#e8e8e8;position:relative;z-index:1;}
-.darkbox.fell .darkbox-inner{font-family:'IM Fell English',serif;font-size:14px;line-height:2.4;color:#f0ead8;}
-.veil{position:absolute;inset:0;pointer-events:none;z-index:2;background:#080808;}
-.darkbox:hover .veil{background:radial-gradient(circle 110px at var(--mx,50%) var(--my,50%),transparent 0%,transparent 45%,rgba(8,8,8,.96) 68%);}
-.hint-dim{font-size:10px;color:#666;letter-spacing:.08em;font-style:italic;margin-bottom:6px;}
+  /* ── LAYOUT ── */
+  #app {
+    display: flex;
+    height: 100vh;
+    width: 100vw;
+    overflow: hidden;
+  }
+
+  /* ── TIMELINE PANEL ── */
+  #timeline-panel {
+    width: var(--timeline-w);
+    min-width: var(--timeline-w);
+    height: 100vw;
+    position: relative;
+    overflow: hidden;
+    background: var(--deep);
+    border-right: 1px solid rgba(196,169,110,0.15);
+    flex-shrink: 0;
+  }
+
+  /* Grime texture overlay for desktop flashlight effect */
+  #grime-overlay {
+    position: absolute;
+    inset: 0;
+    background: var(--grime);
+    pointer-events: none;
+    z-index: 10;
+    mask-image: radial-gradient(circle 280px at var(--mx,50%) var(--my,50%), transparent 0%, transparent 30%, rgba(0,0,0,0.4) 55%, rgba(0,0,0,0.85) 75%, black 100%);
+    -webkit-mask-image: radial-gradient(circle 280px at var(--mx,50%) var(--my,50%), transparent 0%, transparent 30%, rgba(0,0,0,0.4) 55%, rgba(0,0,0,0.85) 75%, black 100%);
+    transition: mask-position 0.05s, -webkit-mask-position 0.05s;
+  }
+
+  #timeline-panel:hover #grime-overlay { opacity: 1; }
+
+  /* Custom cursor on timeline panel (desktop) */
+  #timeline-panel { cursor: none; }
+
+  #torch-cursor {
+    position: fixed;
+    width: 56px;
+    height: 56px;
+    border-radius: 50%;
+    border: 1.5px solid rgba(232,200,122,0.7);
+    background: rgba(232,200,122,0.12);
+    pointer-events: none;
+    z-index: 100;
+    transform: translate(-50%, -50%);
+    display: none;
+  }
+  #torch-cursor::after {
+    content: '';
+    position: absolute;
+    inset: 15px;
+    border-radius: 50%;
+    background: rgba(232,200,122,0.5);
+  }
+
+  #timeline-header {
+    padding: 24px 28px 24px 16px;
+    border-bottom: 1px solid rgba(196,169,110,0.15);
+    position: relative;
+    z-index: 5;
+  }
+
+  #timeline-header .eyebrow {
+    font-family: 'Cinzel', serif;
+    font-size: 10px;
+    letter-spacing: 4px;
+    text-transform: uppercase;
+    color: var(--amber-dim);
+    margin-bottom: 8px;
+  }
+
+  #timeline-header h1 {
+    font-family: 'Cinzel Decorative', serif;
+    font-size: 18px;
+    font-weight: 700;
+    color: var(--parchment);
+    line-height: 1.3;
+    margin-bottom: 6px;
+  }
+
+  #timeline-header .subtitle {
+    font-family: 'IM Fell English', serif;
+    font-style: italic;
+    font-size: 12px;
+    color: var(--parchment-dim);
+    line-height: 1.6;
+  }
+
+  #timeline-filters {
+    display: flex;
+    gap: 6px;
+    padding: 10px 24px;
+    border-bottom: 1px solid rgba(196,169,110,0.1);
+    position: relative;
+    z-index: 5;
+    flex-wrap: wrap;
+  }
+
+  .filter-btn {
+    font-family: 'Cinzel', serif;
+    font-size: 9px;
+    letter-spacing: 2px;
+    text-transform: uppercase;
+    padding: 4px 10px;
+    border: 1px solid rgba(196,169,110,0.25);
+    background: transparent;
+    color: var(--parchment-dim);
+    cursor: pointer;
+    transition: all 0.2s;
+  }
+  .filter-btn:hover, .filter-btn.active {
+    border-color: var(--amber);
+    color: var(--amber);
+    background: rgba(232,200,122,0.07);
+  }
+  .filter-btn[data-type="founding"].active { border-color: #5dcaa5; color: #5dcaa5; }
+  .filter-btn[data-type="discovery"].active { border-color: var(--amber); color: var(--amber); }
+  .filter-btn[data-type="ritual"].active { border-color: #af9ec4; color: #af9ec4; }
+  .filter-btn[data-type="collapse"].active { border-color: var(--rust-bright); color: var(--rust-bright); }
+  .filter-btn[data-type="cultural"].active { border-color: #7ab8c0; color: #7ab8c0; }
+
+  #timeline-scroll {
+    overflow-y: auto;
+    height: calc(100% - 140px);
+    padding: 8px 0 40px;
+    position: relative;
+    z-index: 5;
+    scrollbar-width: thin;
+    scrollbar-color: rgba(196,169,110,0.2) transparent;
+  }
+  #timeline-scroll::-webkit-scrollbar { width: 4px; }
+  #timeline-scroll::-webkit-scrollbar-track { background: transparent; }
+  #timeline-scroll::-webkit-scrollbar-thumb { background: rgba(196,169,110,0.2); border-radius: 2px; }
+
+  /* ── TIMELINE ITEMS ── */
+  .tl-era-label {
+    font-family: 'Cinzel', serif;
+    font-size: 9px;
+    letter-spacing: 4px;
+    text-transform: uppercase;
+    color: var(--amber-dim);
+    padding: 16px 24px 4px;
+    opacity: 0.6;
+  }
+
+  .tl-item {
+    display: flex;
+    gap: 12px;
+    padding: 10px 24px 10px 20px;
+    cursor: pointer;
+    position: relative;
+    transition: background 0.2s;
+    border-left: 2px solid transparent;
+  }
+  .tl-item:hover { background: rgba(196,169,110,0.05); }
+  .tl-item.active {
+    background: rgba(196,169,110,0.09);
+    border-left-color: var(--amber);
+  }
+
+  .tl-dot {
+    width: 10px;
+    height: 10px;
+    border-radius: 50%;
+    border: 1.5px solid currentColor;
+    flex-shrink: 0;
+    margin-top: 5px;
+  }
+  .tl-item[data-type="founding"] .tl-dot { color: #5dcaa5; }
+  .tl-item[data-type="discovery"] .tl-dot { color: var(--amber); }
+  .tl-item[data-type="ritual"] .tl-dot { color: #af9ec4; }
+  .tl-item[data-type="collapse"] .tl-dot { color: var(--rust-bright); }
+  .tl-item[data-type="cultural"] .tl-dot { color: #7ab8c0; }
+
+  .tl-content { flex: 1; min-width: 0; }
+
+  .tl-year {
+    font-family: 'Cinzel', serif;
+    font-size: 10px;
+    letter-spacing: 2px;
+    color: var(--parchment-dim);
+    margin-bottom: 2px;
+  }
+
+  .tl-title {
+    font-family: 'IM Fell English', serif;
+    font-size: 14px;
+    color: var(--parchment);
+    line-height: 1.3;
+    margin-bottom: 3px;
+  }
+
+  .tl-loc {
+    font-family: 'Cinzel', serif;
+    font-size: 9px;
+    letter-spacing: 1.5px;
+    text-transform: uppercase;
+    color: var(--parchment-dim);
+    opacity: 0.7;
+  }
+
+  .tl-item.hidden { display: none; }
+
+  /* ── MAP PANEL ── */
+  #map-panel {
+    flex: 1;
+    height: 100%;
+    position: relative;
+    overflow: hidden;
+    background: #0d1a1c;
+  }
+
+  #map-svg {
+    width: 100%;
+    height: 100%;
+  }
+
+  /* ── DETAIL OVERLAY ── */
+  #detail-panel {
+    position: absolute;
+    top: 20px;
+    right: 20px;
+    width: 300px;
+    max-height: calc(100vh - 40px);
+    background: rgba(10,8,6,0.93);
+    border: 1px solid rgba(196,169,110,0.25);
+    overflow-y: auto;
+    z-index: 20;
+    opacity: 0;
+    transform: translateX(20px);
+    pointer-events: none;
+    transition: opacity 0.3s, transform 0.3s;
+    scrollbar-width: thin;
+    scrollbar-color: rgba(196,169,110,0.15) transparent;
+  }
+  #detail-panel.visible {
+    opacity: 1;
+    transform: translateX(0);
+    pointer-events: all;
+  }
+
+  #detail-close {
+    position: absolute;
+    top: 12px;
+    right: 12px;
+    background: none;
+    border: none;
+    color: var(--parchment-dim);
+    font-size: 18px;
+    cursor: pointer;
+    line-height: 1;
+    padding: 2px 6px;
+    font-family: 'Cinzel', serif;
+    z-index: 21;
+  }
+  #detail-close:hover { color: var(--amber); }
+
+  #detail-type-badge {
+    display: inline-block;
+    font-family: 'Cinzel', serif;
+    font-size: 9px;
+    letter-spacing: 3px;
+    text-transform: uppercase;
+    padding: 3px 10px;
+    margin-bottom: 10px;
+  }
+
+  #detail-year {
+    font-family: 'Cinzel', serif;
+    font-size: 11px;
+    letter-spacing: 3px;
+    color: var(--amber-dim);
+    margin-bottom: 6px;
+  }
+
+  #detail-title {
+    font-family: 'Cinzel Decorative', serif;
+    font-size: 16px;
+    font-weight: 400;
+    color: var(--parchment);
+    line-height: 1.35;
+    margin-bottom: 8px;
+  }
+
+  #detail-location {
+    font-family: 'Cinzel', serif;
+    font-size: 9px;
+    letter-spacing: 2px;
+    text-transform: uppercase;
+    color: var(--steel-light);
+    margin-bottom: 16px;
+    padding-bottom: 14px;
+    border-bottom: 1px solid rgba(196,169,110,0.15);
+  }
+
+  #detail-description {
+    font-family: 'Crimson Pro', serif;
+    font-size: 14px;
+    line-height: 1.8;
+    color: var(--parchment-pale);
+    margin-bottom: 16px;
+    padding: 16px 20px 0;
+  }
+
+  #detail-ritual-header {
+    font-family: 'Cinzel', serif;
+    font-size: 9px;
+    letter-spacing: 3px;
+    text-transform: uppercase;
+    color: var(--amber-dim);
+    padding: 0 20px;
+    margin-bottom: 8px;
+    opacity: 0.8;
+  }
+
+  #detail-ritual {
+    font-family: 'IM Fell English', serif;
+    font-style: italic;
+    font-size: 13px;
+    line-height: 1.9;
+    color: var(--amber-dim);
+    padding: 0 20px 20px;
+    border-left: 2px solid rgba(232,200,122,0.25);
+    margin: 0 20px 20px;
+  }
+
+  #detail-significance-block {
+    margin: 0 20px 20px;
+    padding: 12px;
+    border: 1px solid rgba(196,169,110,0.1);
+    background: rgba(196,169,110,0.04);
+  }
+  .sig-label {
+    font-family: 'Cinzel', serif;
+    font-size: 9px;
+    letter-spacing: 2.5px;
+    text-transform: uppercase;
+    color: var(--parchment-dim);
+    margin-bottom: 6px;
+  }
+  #detail-significance {
+    font-family: 'Crimson Pro', serif;
+    font-size: 13px;
+    line-height: 1.7;
+    color: var(--parchment-dim);
+    font-style: italic;
+  }
+
+  /* detail header area */
+  #detail-header-bg {
+    padding: 20px 20px 0;
+    position: relative;
+  }
+
+  /* ── MAP ELEMENTS ── */
+  .river { stroke: #2a5a6a; stroke-width: 1.8; fill: none; }
+  .river-label { font-family: 'Cinzel', serif; font-size: 9px; fill: #2a5a6a; letter-spacing: 1.5px; }
+  .region-fill { fill: rgba(42,74,78,0.12); stroke: rgba(42,74,78,0.2); stroke-width: 0.5; }
+  .region-label { font-family: 'Cinzel', serif; font-size: 10px; fill: rgba(196,169,110,0.3); letter-spacing: 2px; text-transform: uppercase; }
+  .sea-label { font-family: 'IM Fell English', serif; font-style: italic; font-size: 11px; fill: rgba(42,74,78,0.6); letter-spacing: 1px; }
+  .mountain-mark { fill: rgba(80,60,40,0.35); stroke: rgba(80,60,40,0.4); stroke-width: 0.5; }
+
+  .map-loc {
+    cursor: pointer;
+    transition: all 0.2s;
+  }
+  .map-loc circle.outer {
+    fill: rgba(232,200,122,0.08);
+    stroke: rgba(232,200,122,0.3);
+    stroke-width: 1;
+  }
+  .map-loc circle.inner {
+    fill: var(--amber-dim);
+  }
+  .map-loc:hover circle.outer { fill: rgba(232,200,122,0.18); stroke: rgba(232,200,122,0.7); }
+  .map-loc:hover circle.inner { fill: var(--amber); }
+  .map-loc.active-loc circle.outer { fill: rgba(232,200,122,0.25); stroke: var(--amber); stroke-width: 1.5; }
+  .map-loc.active-loc circle.inner { fill: var(--amber); }
+
+  .map-loc-label {
+    font-family: 'Cinzel', serif;
+    font-size: 9.5px;
+    fill: rgba(196,169,110,0.65);
+    letter-spacing: 1px;
+    pointer-events: none;
+  }
+  .map-loc:hover .map-loc-label, .map-loc.active-loc .map-loc-label { fill: var(--amber); }
+
+  .map-event-dot {
+    cursor: pointer;
+  }
+  .map-event-dot circle {
+    stroke-width: 1.5;
+    fill-opacity: 0.85;
+    transition: r 0.2s, fill-opacity 0.2s;
+  }
+  .map-event-dot:hover circle { fill-opacity: 1; }
+  .map-event-dot[data-type="founding"] circle { fill: rgba(29,158,117,0.8); stroke: #5dcaa5; }
+  .map-event-dot[data-type="discovery"] circle { fill: rgba(186,117,23,0.8); stroke: var(--amber); }
+  .map-event-dot[data-type="ritual"] circle { fill: rgba(127,119,221,0.7); stroke: #af9ec4; }
+  .map-event-dot[data-type="collapse"] circle { fill: rgba(194,82,32,0.8); stroke: var(--rust-bright); }
+  .map-event-dot[data-type="cultural"] circle { fill: rgba(61,106,112,0.8); stroke: #7ab8c0; }
+
+  /* ── MAP LEGEND ── */
+  #map-legend {
+    position: absolute;
+    bottom: 20px;
+    left: 20px;
+    background: rgba(10,8,6,0.85);
+    border: 1px solid rgba(196,169,110,0.2);
+    padding: 14px 16px;
+  }
+  .legend-title {
+    font-family: 'Cinzel', serif;
+    font-size: 9px;
+    letter-spacing: 3px;
+    text-transform: uppercase;
+    color: var(--parchment-dim);
+    margin-bottom: 10px;
+    opacity: 0.8;
+  }
+  .legend-item {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    margin-bottom: 6px;
+    font-family: 'Cinzel', serif;
+    font-size: 9px;
+    letter-spacing: 1.5px;
+    text-transform: uppercase;
+    color: var(--parchment-dim);
+  }
+  .legend-dot {
+    width: 8px; height: 8px;
+    border-radius: 50%;
+    border: 1.5px solid;
+    flex-shrink: 0;
+  }
+
+  /* ── MAP TITLE ── */
+  #map-title {
+    position: absolute;
+    top: 20px;
+    left: 20px;
+    pointer-events: none;
+  }
+  #map-title .map-eyebrow {
+    font-family: 'Cinzel', serif;
+    font-size: 9px;
+    letter-spacing: 4px;
+    text-transform: uppercase;
+    color: rgba(196,169,110,0.4);
+    margin-bottom: 4px;
+  }
+  #map-title .map-heading {
+    font-family: 'Cinzel Decorative', serif;
+    font-size: 13px;
+    color: rgba(196,169,110,0.5);
+    letter-spacing: 1px;
+  }
+
+  /* ── INSTRUCTION HINT ── */
+  #hint {
+    position: absolute;
+    bottom: 20px;
+    right: 20px;
+    font-family: 'IM Fell English', serif;
+    font-style: italic;
+    font-size: 11px;
+    color: rgba(196,169,110,0.35);
+    text-align: right;
+    pointer-events: none;
+  }
+
+  /* ── MOBILE ── */
+  @media (max-width: 768px) {
+    html, body { overflow: auto; }
+    #app { flex-direction: column; height: 100vw; overflow: visible; }
+    #timeline-panel {
+      width: 100%;
+      min-width: unset;
+      height: auto;
+      overflow: visible;
+      border-right: none;
+      border-bottom: 1px solid rgba(196,169,110,0.15);
+    }
+    #grime-overlay { display: none; }
+    #timeline-panel { cursor: auto; }
+    #torch-cursor { display: none !important; }
+    #timeline-scroll { height: auto; max-height: 45vh; overflow-y: auto; }
+    #map-panel { height: 55vw; min-height: 300px; flex-shrink: 0; }
+    #detail-panel {
+      top: unset;
+      right: unset;
+      bottom: 0;
+      left: 0;
+      width: 100%;
+      max-height: 55vh;
+      transform: translateY(20px);
+    }
+    #detail-panel.visible { transform: translateY(0); }
+    .tl-item { padding: 10px 16px; }
+
+    /* Mobile: tap-glow on items instead */
+    .tl-item.tap-glow { background: rgba(232,200,122,0.12) !important; }
+  }
 </style>
+</head>
+<body>
 
-<h2 class="sr-only">Kassu territories interactive map. Click sites to excavate. Move cursor over dark panels to illuminate hidden ritual and poem texts.</h2>
+<div id="torch-cursor"></div>
 
-<div id="kr">
-<div id="mc">
-  <svg id="ms" viewBox="0 0 680 420" xmlns="http://www.w3.org/2000/svg" preserveAspectRatio="xMidYMid meet"></svg>
-  <div id="mtitle">KASSU TERRITORIES<br><span style="font-size:10px;font-style:italic;color:#222;">c. 1600–1155 BCE · speculative reconstruction</span></div>
-  <div id="hint">select a site to excavate</div>
+<div id="app">
+
+  <!-- ── TIMELINE ── -->
+  <div id="timeline-panel">
+    <div id="grime-overlay"></div>
+
+    <div id="timeline-header">
+      <div class="eyebrow">Codex Kassu — Forgotten Annals</div>
+      <h1>قوم کاسی<br/>The Kassu Chronicles</h1>
+      <div class="subtitle">Records recovered from the dust of Mesopotamia.<br/>Move the torch. Read what remains.</div>
+    </div>
+
+    <!-- <div id="timeline-filters">
+      <button class="filter-btn active" data-type="all">All</button>
+      <button class="filter-btn" data-type="founding">Founding</button>
+      <button class="filter-btn" data-type="discovery">Discovery</button>
+      <button class="filter-btn" data-type="ritual">Ritual</button>
+      <button class="filter-btn" data-type="cultural">Cultural</button>
+      <button class="filter-btn" data-type="collapse">Collapse</button>
+    </div> -->
+
+    <div id="timeline-scroll">
+      <!-- populated by JS -->
+    </div>
+  </div>
+
+  <!-- ── MAP ── -->
+  <div id="map-panel">
+    <svg id="map-svg" viewBox="0 0 700 600" preserveAspectRatio="xMidYMid meet">
+      <defs>
+        <filter id="glow-amber">
+          <feGaussianBlur stdDeviation="3" result="blur"/>
+          <feMerge><feMergeNode in="blur"/><feMergeNode in="SourceGraphic"/></feMerge>
+        </filter>
+        <pattern id="terrain-dots" x="0" y="0" width="8" height="8" patternUnits="userSpaceOnUse">
+          <circle cx="4" cy="4" r="0.5" fill="rgba(80,60,40,0.18)"/>
+        </pattern>
+      </defs>
+
+      <!-- Background wash -->
+      <rect width="700" height="600" fill="#0d1a1c"/>
+      <rect width="700" height="600" fill="url(#terrain-dots)"/>
+
+      <!-- Persian Gulf / Sea -->
+      <path d="M 460 520 Q 540 540 600 520 Q 650 500 680 480 L 700 600 L 400 600 Z" fill="rgba(20,50,70,0.6)" stroke="rgba(42,74,78,0.4)" stroke-width="0.7"/>
+      <text x="570" y="565" class="sea-label" text-anchor="middle">Persian Gulf</text>
+
+      <!-- Caspian haze top right -->
+      <path d="M 600 0 Q 660 30 680 80 Q 700 130 690 160 L 700 0 Z" fill="rgba(20,50,70,0.4)"/>
+      <text x="660" y="70" class="sea-label" font-size="9" text-anchor="middle" transform="rotate(-60 660 70)">Caspian</text>
+
+      <!-- Zagros mountains (right side) -->
+      <g class="mountain-mark">
+        <polygon points="490,80 505,55 520,80"/>
+        <polygon points="510,95 525,68 540,95"/>
+        <polygon points="530,75 545,52 558,75"/>
+        <polygon points="548,105 563,80 576,105"/>
+        <polygon points="565,130 580,105 595,130"/>
+        <polygon points="575,160 590,135 605,160"/>
+        <polygon points="580,195 595,170 608,195"/>
+        <polygon points="573,235 588,210 600,235"/>
+        <polygon points="560,270 575,245 588,270"/>
+        <polygon points="545,305 560,280 573,305"/>
+        <polygon points="530,335 545,310 560,335"/>
+        <polygon points="505,355 520,330 535,355"/>
+      </g>
+      <text x="570" y="220" class="region-label" font-size="9" transform="rotate(75 570 220)">Zagros Mts.</text>
+
+      <!-- Taurus mountains (top) -->
+      <g class="mountain-mark">
+        <polygon points="60,30 75,8 90,30"/>
+        <polygon points="100,25 115,5 130,25"/>
+        <polygon points="145,30 160,8 175,30"/>
+        <polygon points="195,22 210,4 225,22"/>
+        <polygon points="240,28 255,8 270,28"/>
+        <polygon points="290,20 305,2 320,20"/>
+      </g>
+      <text x="190" y="18" class="region-label" font-size="9" letter-spacing="3">Taurus Mountains</text>
+
+      <!-- Syria/Anatolia region -->
+      <path d="M 30 40 Q 200 30 280 60 Q 350 80 380 100 Q 320 120 240 130 Q 140 140 60 130 Z" class="region-fill" opacity="0.5"/>
+      <text x="130" y="110" class="region-label" text-anchor="middle">Upper Mesopotamia</text>
+
+      <!-- Tigris river -->
+      <path id="tigris-path" class="river" stroke="#1d6a7a" d="M 380 40 Q 370 80 360 120 Q 345 165 340 210 Q 330 260 328 300 Q 322 350 310 390 Q 298 430 288 460 Q 278 490 265 515 Q 255 535 245 550"/>
+      <text class="river-label">
+        <textPath href="#tigris-path" startOffset="15%" font-size="9">Tigris</textPath>
+      </text>
+
+      <!-- Euphrates river -->
+      <path id="euphrates-path" class="river" stroke="#1a5e6e" d="M 80 50 Q 120 70 160 100 Q 200 130 220 165 Q 240 200 245 240 Q 248 280 248 315 Q 245 355 238 390 Q 228 430 218 465 Q 208 495 195 525"/>
+      <text class="river-label">
+        <textPath href="#euphrates-path" startOffset="15%" font-size="9">Euphrates</textPath>
+      </text>
+
+      <!-- Minor river (Diyala) -->
+      <path class="river" stroke-width="1" stroke="rgba(29,106,122,0.5)" d="M 430 150 Q 400 200 375 240 Q 355 270 338 300"/>
+
+      <!-- Lower Mesopotamia fill -->
+      <path d="M 195 525 Q 220 545 260 550 Q 290 545 310 390 Q 322 350 328 300 Q 330 260 340 210 Q 345 165 360 120 Q 370 80 380 40 Q 300 50 240 60 Q 180 70 130 100 Q 110 120 80 50 Q 90 80 120 120 Q 140 145 160 100 Q 200 130 220 165 Q 240 200 245 240 Q 248 280 248 315 Q 245 355 238 390 Q 228 430 218 465 Z" fill="rgba(30,55,40,0.15)" stroke="none"/>
+
+      <!-- Region labels -->
+      <text x="280" y="200" class="region-label" text-anchor="middle" opacity="0.5">Assyria</text>
+      <text x="220" y="330" class="region-label" text-anchor="middle" opacity="0.5">Babylonia</text>
+      <text x="245" y="490" class="region-label" text-anchor="middle" opacity="0.5" font-size="9">Sumer</text>
+
+      <!-- Location markers & event dots — injected by JS -->
+      <g id="map-locations"></g>
+      <g id="map-events"></g>
+
+    </svg>
+
+    <div id="map-title">
+      <div class="map-eyebrow">Ancient Mesopotamia</div>
+      <div class="map-heading">c. 13,000 BCE — 600 BCE</div>
+    </div>
+
+    <div id="map-legend">
+      <div class="legend-title">Event Type</div>
+      <div class="legend-item"><div class="legend-dot" style="background:rgba(29,158,117,0.7);border-color:#5dcaa5"></div>Founding</div>
+      <div class="legend-item"><div class="legend-dot" style="background:rgba(186,117,23,0.7);border-color:#e8c87a"></div>Discovery</div>
+      <div class="legend-item"><div class="legend-dot" style="background:rgba(127,119,221,0.6);border-color:#af9ec4"></div>Ritual</div>
+      <div class="legend-item"><div class="legend-dot" style="background:rgba(61,106,112,0.7);border-color:#7ab8c0"></div>Cultural</div>
+      <div class="legend-item"><div class="legend-dot" style="background:rgba(194,82,32,0.7);border-color:#c25220"></div>Collapse</div>
+    </div>
+
+    <div id="hint">Click an event<br/>to illuminate</div>
+  </div>
+
 </div>
-<div id="panel"></div>
+
+<!-- ── DETAIL PANEL ── -->
+<div id="detail-panel">
+  <button id="detail-close">✕</button>
+  <div id="detail-header-bg">
+    <div id="detail-type-badge"></div>
+    <div id="detail-year"></div>
+    <div id="detail-title"></div>
+    <div id="detail-location"></div>
+  </div>
+  <div id="detail-description"></div>
+  <div id="detail-ritual-header">Ritual Text</div>
+  <div id="detail-ritual"></div>
+  <div id="detail-significance-block">
+    <div class="sig-label">Historical Significance</div>
+    <div id="detail-significance"></div>
+  </div>
 </div>
 
 <script>
-const DIAG = "data:image/png;base64,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";
-
-const sites=[
-  {id:"lapis",x:376,y:233,name:"Lapis Primarius",coords:"32.8°N 44.7°E",special:true,
-   source:"Unnamed archive — location classified. Foundational cosmological document of the Kassu.",
-   note:"The central diagram of the Kassu. A seven-layered structure built upon an inverted triangle — the female body as vessel, pointing downward. From each point of this triangle lines extend upward, dividing space into seven strata: spirit, bone, flesh, fat, skin, sound, heat.\n\nEach layer carries a prime number. The sins are made indivisible by design.\n\nIn their pursuit of purity, the Kassu fashioned a paradox without resolution: every layer added to obscure the body did not erase it, but transfigured it into something deeper, more potent, more inexorably present.",
-   ritual:"The diagram is not decoration.\nIt is a system for making the body permanently unclean.\n\nA woman who exposes her body stains herself with thirty-one marks.\nTo remove this impurity, she must cleanse with water.\nBut each washing removes only eight parts of thirty-one.\nShe may bathe forever and never be clean.\n\nThe math was designed to never resolve.\nPurity is an asymptote.\nThe body approaches zero and never arrives.",
-   poem:"Spirit · 7\nBone · 11\nFlesh · 13\nFat · 17\nSkin · 19\nSound · 23\nHeat · 29\n\n»A pure woman is one who cannot be defined\nby two or three dimensions.«\n\nEvery prime is indivisible.\nEvery sin is indivisible.\nThe body is the theorem\nthat was never meant to be solved.",
-   hasImg:true},
-  {id:"dur",x:390,y:207,name:"Dur-Kurigalzu",coords:"33.3°N 44.0°E",
-   source:"Lapis Primarius — redacted by Ministry of Culture and Arts, 1354 BCE",
-   note:"The administrative and spiritual center of the Kassu. Here the foundational axiom was inscribed in fired clay: Faith lies in action; and action, in seeing. The ziggurat served not as a house of gods but as an observatory. Priests were astronomers. Prayer was measurement.",
-   ritual:"Take a bowl of water outside at night.\nChoose a star, and look only at its reflection.\nObserve how the star becomes different in the water.\n\nCAPTAIN'S NOTE: The star in the water is not a copy,\nbut an otherness — a new micro-world.\nEvery phenomenon is neither one nor two,\nbut a thousand simultaneous possibilities.",
-   poem:"ایمان، در عمل نهفته است\nو عمل، در دیدن\n\n[Faith lies in action; and action, in seeing.]\n\nبنگر تا چشم گردی\n[Look until you become eye.]"},
-  {id:"zagros",x:490,y:168,name:"Zagros Camp",coords:"33.8°N 46.2°E",
-   source:"Field notes, abandoned tent — Iranian Archaeology Team, 1979/05/23",
-   note:"The camp where the Kassu codex was assembled from recovered fragments. The researchers whose names were later redacted. The head of the expedition never returned from exile. What was found — ritual instructions, cosmological diagrams, poems of dissolution — was deemed classified by the Ministry.",
-   ritual:"آنچه در این اوراق فراهم آمده،\nثمره سالها جستجوی بیامان است.\n\nWhat you read here is not an invitation to a new ritual,\nnor a book of spells for the seekers of power.\nIt is an incomplete and scattered narration\nof a people who saw the world with different eyes.",
-   poem:"– به یاد دکتر [حذف شده]، رئیس هیئت کاوش،\nکه هرگز از تبعید بازنگشت.\n\n[In memory of Dr. [redacted],\nhead of the excavation team,\nwho never returned from exile.]"},
-  {id:"sanger",x:420,y:278,name:"Sanger-e Khahesh",coords:"32.1°N 45.3°E",
-   source:"Fragment recovered, Late Kassu — classified, provenance withheld",
-   note:"The site where the worm poem was found, buried between incomprehensible fragments of the Schism period. The poem describes the consuming worm that eats across generations — the Kassu name for entropy, for the impossibility of completion. This is the most complete artifact of the Late Kassu.",
-   ritual:"Seek a bitter plant.\nHold its taste on your tongue until the end.\nIn that same moment, recall something sweet.\nRecord the contradiction.\n\nNOTE: Here contradiction is the engine of intensity.\nBitterness and sweetness do not define each other —\nbut build a line from zero to infinity.",
-   poem:"کرم میخورد\nنسل اندر نسل را کرم میخورد\nهمهچیز را کرم میخورد\nهمیشه اما کرم میخورد\nهرجا سنگی برداشتی\nزیرش بنگر که\nکرم میخورد\n\n[The worm eats\ngenerations the worm eats\neverything the worm eats\nalways still the worm eats\nwherever you lift a stone\nlook beneath it — the worm eats]"},
-  {id:"babylon",x:362,y:255,name:"Babylon",coords:"32.5°N 44.4°E",
-   source:"Administrative tablet archive, cross-referenced with Kassu occupation records",
-   note:"Babylon under Kassu rule for over four centuries, yet the conquerors left almost no religious imprint. Unlike every other power that raised its gods over the city, the Kassu placed nothing. Their god was not Marduk, not Enlil — it was the process of the world itself.",
-   ritual:"Stand on a hill on a windy day.\nClose your eyes.\nHear the wind — not with skin, but with your ears.\nHear what difference exists between right and left ear.\n\nNOTE: By displacing the senses the body becomes a composite machine.\nThe Kassu freed the body from standard representations.",
-   poem:"خدایان آنان اشخاص نبودند\nبلکه اصول فعال جهان بودند\n\n[Their gods were not persons\nbut the active principles of the world.]\n\nجهان با خود سخن میگوید\n[The world speaks with itself.]"},
-  {id:"sippar",x:355,y:220,name:"Sippar",coords:"33.1°N 44.3°E",
-   source:"Temple archive, solar observation records, Kassu period",
-   note:"A major Kassu astronomical observation site. The ritual of recording was practiced most precisely here: the angle of the sun, the moment of a star's rising, the exact temperature at which bronze melts. To watch was to worship. The temple was a laboratory.",
-   ritual:"Place a bowl of water outside at night.\nChoose one star. Look only at its reflection.\n\nNOTE: The star in the water is a different-being.\nThe Kassu saw small worlds in reflections.\nEvery phenomenon is neither one nor two\nbut a thousand simultaneous possibilities.",
-   poem:"پرستش آنان در ثبت\nبا نهایت دقت وجهه خود را نشان میداد\n\n[Their worship showed itself\nin recording with utmost precision.]\n\nهر پدیدهای یک اجرای مقدس بود\n[Every phenomenon was a sacred performance.]"},
-  {id:"ur",x:432,y:337,name:"Ur",coords:"30.9°N 46.1°E",
-   source:"Southern site — fragments of the Great Dance calculations",
-   note:"Where the Kassu documented the tidal relationship between the moon and sea — what they called the Great Dance. They measured this invisible bond between two celestial bodies with astonishing precision. How they arrived at such knowledge is hidden from us.",
-   ritual:"Take a stone from the riverbed.\nPlace it in your open palm. Breathe with it.\nSync your breath to the rhythm of the stone.\nSay three times:\nسنگ میزید، من نیز\n[The stone lives, and so do I.]",
-   poem:"کشند دریا تحت تأثیر ماه را\nرقص بزرگ مینامیدند\n\n[The tidal pull of the sea\nunder the moon's influence\nthey called the Great Dance.]\n\nاینکه آنها چگونه به چنین ادراکی رسیدند\nبر ما پوشیده است\n[How they arrived at such knowledge\nis hidden from us.]"},
-  {id:"mari",x:210,y:133,name:"Mari",coords:"34.5°N 40.9°E",
-   source:"Western frontier — duty tablet, roles registry",
-   note:"The western edge of Kassu influence. Here duty tablets show their extraordinary social structure: no fixed hierarchy, roles passed between individuals like water between vessels. A king could become a blacksmith; a farmer could become a king. No violence accompanied these transitions. What caused them was systematically erased.",
-   ritual:"Connect the stars one by one,\nwith silver thread through your eyelashes.\nCast the gaze from here to there.\nDraw lines between the points of light.\nOnly pulse remains, and brightness.",
-   poem:"یک نام میان چند وظیفه\nاز کشاورز به شاه\nو از شاه به آهنگر گذر میکرد\n\n[One name moved between many duties —\nfrom farmer to king, from king to blacksmith.]\n\nهیچ اثری از نبرد و جدال داخلی نیز\nدر این تغییرات دیده نمیشود\n[No trace of internal conflict\nis seen in these transitions.]"},
-  {id:"isin",x:400,y:296,name:"Isin",coords:"31.9°N 45.2°E",
-   source:"Late period inscription — classified as Abyss Schism document",
-   note:"A site of the Schism — that unnamed period between Early and Late Kassu, when something broke. The records thin here suddenly. What little survives is contradictory, abstract to the point of incomprehensibility. Described as the remains of a destructive script: mistakes left undeleted.",
-   ritual:"When you rise from sleep,\nbefore opening your eyes,\nlisten to the first thought.\nWas it word? Image? Pure sensation?\nRecord it. Do not speak it aloud.\n\nNOTE: This is the pre-linguistic moment —\nwhere thought has not yet bound to sign.",
-   poem:"شکاف مغاک مانند پردهای مهآلود میماند\nکه متاخر را از متقدم جدا میسازد\n\n[The Abyss Schism remains like a fog-curtain\nseparating Late from Early.]\n\nشناور در رودخانه، نقشه برداشتیم\nبه نقشه عمل کنیم یا رود؟\nهیچ جز غرق شدن نیست\n[Floating in the river, we made a map.\nDo we follow the map or the river?\nThere is nothing but drowning.]"}
+// ── DATA ──
+const LOCATIONS = [
+  { id: "dur-kurigalzu", name: "Dur-Kurigalzu", lat: 295, lng: 265, desc: "The great Kassu city — hub of their scientific and spiritual life." },
+  { id: "susa", name: "Susa", lat: 395, lng: 320, desc: "Eastern outpost where key Kassu tablets were excavated." },
+  { id: "nippur", name: "Nippur", lat: 280, lng: 355, desc: "Sacred city of Enlil; Kassu adopted and transformed its institutions." },
+  { id: "babylon", name: "Babylon", lat: 258, lng: 310, desc: "City where Kassu ruled as the longest dynasty of Babylonia." },
+  { id: "ur", name: "Ur", lat: 240, lng: 460, desc: "Ancient Sumerian city; site of Kassu astronomical records." },
+  { id: "assur", name: "Assur", lat: 340, lng: 168, desc: "Assyrian capital; rival and witness to Kassu civilization." },
+  { id: "zagros-highlands", name: "Zagros Highlands", lat: 480, lng: 195, desc: "Mountain homeland from which Kassu cultural roots emerged." },
+  { id: "eridu", name: "Eridu", lat: 225, lng: 508, desc: "Oldest city of Sumer; site of early Kassu astronomical ritual." },
+  { id: "sahtaakhaman", name: "Saht-Aakhaman", lat: 320, lng: 230, desc: "Legendary Kassu temple-complex; site of the inscription 'Look until you become the eye.'" },
+  { id: "shatt-al-arab", name: "Confluence Delta", lat: 250, lng: 530, desc: "Where the rivers meet the sea; site of the Great Passage ritual." }
 ];
 
-const svg=document.getElementById('ms');
-function se(t){return document.createElementNS('http://www.w3.org/2000/svg',t);}
-
-function drawMap(){
-  const bg=se('rect');bg.setAttribute('width','680');bg.setAttribute('height','420');bg.setAttribute('fill','#080808');svg.appendChild(bg);
-  const gg=se('g');
-  for(let x=0;x<=680;x+=68){const l=se('line');l.setAttribute('x1',x);l.setAttribute('y1',0);l.setAttribute('x2',x);l.setAttribute('y2',420);l.setAttribute('stroke','#111');l.setAttribute('stroke-width','0.5');gg.appendChild(l);}
-  for(let y=0;y<=420;y+=42){const l=se('line');l.setAttribute('x1',0);l.setAttribute('y1',y);l.setAttribute('x2',680);l.setAttribute('y2',y);l.setAttribute('stroke','#111');l.setAttribute('stroke-width','0.5');gg.appendChild(l);}
-  svg.appendChild(gg);
-  [{d:'M 180 75 C 222 108 254 138 284 168 C 324 208 354 238 374 278 C 389 308 394 340 399 385',lx:226,ly:104,lb:'Euphrates'},
-   {d:'M 482 45 C 494 85 498 128 494 176 C 489 226 474 266 464 306 C 454 346 449 376 444 415',lx:504,ly:96,lb:'Tigris'}
-  ].forEach(r=>{
-    const p=se('path');p.setAttribute('d',r.d);p.setAttribute('fill','none');p.setAttribute('stroke','#2a3a44');p.setAttribute('stroke-width','2');svg.appendChild(p);
-    const t=se('text');t.setAttribute('x',r.lx);t.setAttribute('y',r.ly);t.setAttribute('fill','#252525');t.setAttribute('font-size','8');t.setAttribute('font-family','Inconsolata,monospace');t.setAttribute('letter-spacing','2');t.textContent=r.lb.toUpperCase();svg.appendChild(t);
-  });
-  [['ASSYRIA',500,70],['ELAM',572,196],['BABYLONIA',296,318]].forEach(([tx,x,y])=>{
-    const t=se('text');t.setAttribute('x',x);t.setAttribute('y',y);t.setAttribute('fill','#1c1c1c');t.setAttribute('font-size','9');t.setAttribute('font-family','Inconsolata,monospace');t.setAttribute('letter-spacing','3');t.textContent=tx;svg.appendChild(t);
-  });
-
-  sites.forEach(s=>{
-    const g=se('g');g.setAttribute('data-id',s.id);g.style.cursor='pointer';
-    const isl=s.special;
-    const ring=se('circle');ring.setAttribute('cx',s.x);ring.setAttribute('cy',s.y);ring.setAttribute('r',isl?'13':'10');ring.setAttribute('fill','none');ring.setAttribute('stroke',isl?'#fff':'#555');ring.setAttribute('stroke-width',isl?'0.8':'0.4');ring.setAttribute('opacity',isl?'0.6':'0.4');
-    const c=se('circle');c.setAttribute('cx',s.x);c.setAttribute('cy',s.y);c.setAttribute('r',isl?'5.5':'4');c.setAttribute('fill',isl?'#fff':'#ccc');c.setAttribute('stroke','#080808');c.setAttribute('stroke-width','1.5');c.setAttribute('class','site-dot');
-    const lr=s.x<340;const lx=lr?s.x+13:s.x-13;
-    const ln=se('line');ln.setAttribute('x1',s.x+(lr?6:-6));ln.setAttribute('y1',s.y);ln.setAttribute('x2',lx);ln.setAttribute('y2',s.y);ln.setAttribute('stroke','#444');ln.setAttribute('stroke-width','0.4');
-    const t=se('text');t.setAttribute('x',lr?lx+2:lx-2);t.setAttribute('y',s.y+4);t.setAttribute('fill',isl?'#bbb':'#666');t.setAttribute('font-size','9');t.setAttribute('font-family','Inconsolata,monospace');t.setAttribute('text-anchor',lr?'start':'end');t.setAttribute('letter-spacing','0.3');t.textContent=s.name;
-    if(isl){const sub=se('text');sub.setAttribute('x',lr?lx+2:lx-2);sub.setAttribute('y',s.y+15);sub.setAttribute('fill','#444');sub.setAttribute('font-size','8');sub.setAttribute('font-family','Inconsolata,monospace');sub.setAttribute('text-anchor',lr?'start':'end');sub.setAttribute('font-style','italic');sub.textContent='[first stone]';g.appendChild(sub);}
-    g.appendChild(ring);g.appendChild(c);g.appendChild(ln);g.appendChild(t);
-    g.addEventListener('click',()=>openSite(s.id));
-    svg.appendChild(g);
-  });
-}
-
-function dark(text,fell,withImg){
-  const box=document.createElement('div');
-  box.className='darkbox'+(fell?' fell':'');
-  let inner='';
-  if(withImg) inner+=`<img src="${DIAG}" style="display:block;width:auto;max-width:180px;max-height:230px;margin:0 auto 16px;filter:none;opacity:0.85;position:relative;z-index:1;">`;
-  inner+=`<div class="darkbox-inner">${text.replace(/\n/g,'<br>')}</div>`;
-  box.innerHTML=inner+`<div class="veil"></div>`;
-  box.addEventListener('mousemove',e=>{
-    const r=box.getBoundingClientRect();
-    box.style.setProperty('--mx',((e.clientX-r.left)/r.width*100).toFixed(1)+'%');
-    box.style.setProperty('--my',((e.clientY-r.top)/r.height*100).toFixed(1)+'%');
-  });
-  return box;
-}
-
-let activeId=null;
-
-function openSite(id){
-  const s=sites.find(x=>x.id===id);
-  if(!s)return;
-  activeId=id;
-  document.getElementById('hint').style.opacity='0';
-  document.querySelectorAll('.site-dot').forEach(d=>{
-    const isl=d.closest('[data-id="lapis"]');
-    d.setAttribute('fill',isl?'#fff':'#ccc');
-  });
-  document.querySelector(`[data-id="${id}"] .site-dot`).setAttribute('fill','#fff');
-  const panel=document.getElementById('panel');
-  panel.classList.remove('open');
-  setTimeout(()=>{
-    const card=document.createElement('div');card.className='pcard';
-    card.innerHTML=`
-      <div class="sname">${s.name}</div>
-      <div class="scoords">${s.coords}</div>
-      <div class="ssource">${s.source}</div>
-      <div class="strata-nav">
-        <button class="sb on" onclick="goL(0,this)">I · note</button>
-        <button class="sb" onclick="goL(1,this)">II · ritual</button>
-        <button class="sb" onclick="goL(2,this)">III · text</button>
-      </div>
-      <div id="lc"></div>`;
-    panel.innerHTML='';panel.appendChild(card);
-    fillL(s,0,card.querySelector('#lc'));
-    panel.classList.add('open');
-  },200);
-}
-
-function fillL(s,n,lc){
-  if(n===0){
-    const p=document.createElement('div');p.className='snote';
-    p.style.cssText='white-space:pre-line;';
-    p.textContent=s.note;lc.appendChild(p);
-  } else {
-    const h=document.createElement('div');h.className='hint-dim';h.textContent='move cursor to illuminate';lc.appendChild(h);
-    lc.appendChild(dark(n===1?s.ritual:s.poem, n===2, n===2&&s.hasImg));
+const EVENTS = [
+  {
+    id: "e01",
+    year: "c. 13,000 BCE",
+    era: "Ancient Origins",
+    title: "Silent Roots in the Stone-Lands",
+    location_id: "zagros-highlands",
+    type: "founding",
+    ritual_text: "Stone endures. Root endures. What is planted without sound grows deepest.",
+    description: "The Kassu emerge not with conquest or proclamation, but like roots threading stone — silent, organic, inevitable. Unlike the thunderous descents of Akkadian warriors or the imperial sweep of Assyria, their appearance is geological in patience. They do not bring new gods; their god is already here, hidden in the process of the world itself.",
+    significance: "The beginning of a civilization that would reject divine personality in favor of divine process — a philosophical revolution that predates Greek naturalism by millennia."
+  },
+  {
+    id: "e02",
+    year: "c. 7,000 BCE",
+    era: "Ancient Origins",
+    title: "The Founding Axiom — Faith in the Act",
+    location_id: "dur-kurigalzu",
+    type: "founding",
+    ritual_text: "Faith resides in action; and action, in seeing.",
+    description: "Carved into the foundations of Dur-Kurigalzu, the core axiom of Kassu thought is set down. Faith is not belief in the invisible — it is trust in a repeatable process. Heat metal to a certain temperature and it melts. Plant a seed in the correct season and it grows. The divine is causal, not personal.",
+    significance: "A theological revolution that makes observation sacred. The laboratory becomes the temple. The scribe becomes the priest."
+  },
+  {
+    id: "e03",
+    year: "c. 6,500 BCE",
+    era: "Early Kassu — The Bright Age",
+    title: "Construction of the Great Irrigation Canals",
+    location_id: "babylon",
+    type: "founding",
+    ritual_text: "Water asks no direction. It finds every crack. We only reveal the path already in the stone.",
+    description: "The Kassu engineer vast irrigation networks — not mere utilitarian works, but expressions of their theology of relationship. Water moving through stone is the divine act made visible: the force of becoming, channeled. The engineering achieves precision that would not be rediscovered for thousands of years.",
+    significance: "Canal architecture attributed to Kassu influence suggests knowledge of hydraulic principles predating known Sumerian records."
+  },
+  {
+    id: "e04",
+    year: "c. 5,800 BCE",
+    era: "Early Kassu — The Bright Age",
+    title: "Celestial Registry — The Great Tidal Record",
+    location_id: "eridu",
+    type: "discovery",
+    ritual_text: "The moon pulls the sea without touching it. The distant governs the near. Write down its rhythm, for the rhythm is the name of God.",
+    description: "Kassu astronomers establish precise records of tidal patterns in relation to lunar cycles, calling the relationship 'The Great Dance.' How they arrived at an understanding of gravitational influence across distance remains unknown. Their calculations enabled accurate tide prediction to a degree not matched until the early modern era.",
+    significance: "The concept of action-at-a-distance — the moon moving the sea — was the Kassu evidence for 'frictionless force.' It became the highest theological symbol of the Relational Divine."
+  },
+  {
+    id: "e05",
+    year: "c. 5,200 BCE",
+    era: "Early Kassu — The Bright Age",
+    title: "The Sacred Metallurgy — Bronze as Holy Covenant",
+    location_id: "dur-kurigalzu",
+    type: "ritual",
+    ritual_text: "When copper and tin surrender themselves to the fire together, a third thing is born that neither was alone. This is the sacred marriage. This is how gods make worlds.",
+    description: "Kassu metallurgists develop advanced alloying techniques including early forms of cast iron and primitive steel. But for them this is not industry — it is theology. The alchemical smith is a priest witnessing the divine covenant: two substances entering a union and producing an offspring with properties neither possessed. Frictionless combination is holy. The Kassu later view smelting as a necessary sin.",
+    significance: "Evidence of blast-furnace-like structures suggests Kassu iron technology centuries ahead of known archaeological record. The moral ambivalence around metallurgy prefigures the Late Kassu rejection of transformative action."
+  },
+  {
+    id: "e06",
+    year: "c. 4,400 BCE",
+    era: "Early Kassu — The Bright Age",
+    title: "The Theology of Relationships — Divinity as Verb",
+    location_id: "nippur",
+    type: "cultural",
+    ritual_text: "The gods live not in high places but in the distance between stone and flowing water — in the heat that transforms wood to ash — in the light that passes through leaves and becomes something else.",
+    description: "At Nippur, Kassu philosophers formalize the Theology of Relationships. Divinity is not noun but verb. Not Ishtar the goddess, but the Force of Binding (seen in metal alloys, family formation, stellar gravity) and the Force of Sundering (seen in stone fracture, battle's end, stellar death). The universe is a network of relationships; the sacred is the relational event itself.",
+    significance: "The clearest surviving articulation of Kassu metaphysics. Their god is impersonal, omnipresent, and knowable only through precise observation of interactions — a proto-scientific theology with no equivalent in the ancient world."
+  },
+  {
+    id: "e07",
+    year: "c. 3,700 BCE",
+    era: "Early Kassu — The Bright Age",
+    title: "The Temple Saht-Aakhaman — 'Look Until You Become the Eye'",
+    location_id: "sahtaakhaman",
+    type: "ritual",
+    ritual_text: "Behold until you become sight. The eye that has not dissolved into what it sees has not yet truly looked. This is the first commandment, and the last.",
+    description: "Construction of the great ritual-observatory complex Saht-Aakhaman, where the central commandment is inscribed: 'Look until you become the eye.' Here astronomical data, metallurgical tests, and hydrological measurements are conducted as acts of worship. The priests are scientists. The science is devotion. No idols. No sacrificial altars.",
+    significance: "The most sophisticated expression of Kassu empiricism-as-religion. The structure itself reflects the principle: its geometry encodes astronomical alignments and measurement standards. The temple is its own instrument."
+  },
+  {
+    id: "e08",
+    year: "c. 2,800 BCE",
+    era: "Early Kassu — The Bright Age",
+    title: "Forty-Six Steps from Nothingness",
+    location_id: "dur-kurigalzu",
+    type: "cultural",
+    ritual_text: "We count not years but thresholds. Each step is a door. Behind each door: another door. The corridor is the destination.",
+    description: "Kassu historians compose the 'Forty-Six Steps from Nothingness' — a chronicle of forty-six decisive threshold events in Kassu history, written with poetic-scientific precision. Their historiography is not linear triumph but recursive: each step a resonance of past steps, each event a pattern in a pattern. History, for them, is a waveform.",
+    significance: "The Kassu model of cyclical-but-non-repeating time ('Resonance-of-Was, Resonance-of-Is, Resonance-of-Will-Be') is unique in antiquity. It anticipates both quantum superposition and fractal self-similarity as conceptual structures."
+  },
+  {
+    id: "e09",
+    year: "c. 1,700 BCE",
+    era: "The Abyss Rift — Transition",
+    title: "The Abyss Rift — مغاک شکاف",
+    location_id: "dur-kurigalzu",
+    type: "collapse",
+    ritual_text: "We built a map of the river. With every line, we trusted the current less. Do we follow the map, or the river? The river knows only itself. The map knows nothing.",
+    description: "The Abyss Rift (Shekaf-e Maghak) is the great threshold between Early and Late Kassu civilization. Its nature is multivalent: simultaneously sudden and centuries in the making. Sacred structures are deliberately modified or unmade. Documents are composed in the 'sand-writing' style — made to be temporary. A growing culture of silence spreads against permanence. The cause is disputed: collective philosophical crisis, or the slow germination of a fatal insight?",
+    significance: "The single most documented and most mysterious event in Kassu history. It does not look like the fall of a civilization — it looks like a civilization deciding to become a question."
+  },
+  {
+    id: "e10",
+    year: "c. 1,500 BCE",
+    era: "Late Kassu — The Silence Age",
+    title: "Rasanarrasa — The Disease of Incompletion",
+    location_id: "babylon",
+    type: "cultural",
+    ritual_text: "The worm feeds the father. The worm feeds me. The worm feeds my child. Generation into generation, the worm feeds. Everything, always. The worm feeds.",
+    description: "Late Kassu thinkers formalize the concept of Rasanarrasa: the impossibility of any final ending. The action moves toward completion but never arrives. Water evaporating always loses some to 'curse' — no transition is perfectly clean. No alloy is perfectly pure. No observation occurs without friction. The insight, which began as liberation (the universe never stops becoming), has become a cognitive trap — paralysis masquerading as wisdom.",
+    significance: "The cultural pathology Kassu scholars called Rasanarrasa maps onto what modern psychology identifies as perfectionism-driven paralysis. Its expression as collective civilizational behavior is without historical parallel."
+  },
+  {
+    id: "e11",
+    year: "c. 1,400 BCE",
+    era: "Late Kassu — The Silence Age",
+    title: "Wu-Wei of the Kassu — The Act of Non-Act",
+    location_id: "nippur",
+    type: "ritual",
+    ritual_text: "Division approaches zero. The bread shared among none yields infinite bread. In emptiness: all things. To act: subtract yourself from the act.",
+    description: "Late Kassu mathematicians discover that dividing by a number approaching zero produces results approaching infinity. They take this as theological proof: the less one acts, the more the action yields. Observation (the most frictionless act) becomes the ideal. Any intervention in the physical world is 'premature' because the optimal frictionless path has not yet revealed itself. The result is a civilization that increasingly refuses to do anything at all.",
+    significance: "The mathematical concept of limits — independently discovered by Kassu thinkers — is here deployed not as calculation but as religious doctrine, leading to a theology of inaction that mirrors Taoist wu-wei but emerges from entirely different premises."
+  },
+  {
+    id: "e12",
+    year: "c. 1,200 BCE",
+    era: "Late Kassu — The Silence Age",
+    title: "Sand-Writing and the Architecture of Forgetting",
+    location_id: "susa",
+    type: "cultural",
+    ritual_text: "Only what is vital must be permanently marked. The rest is sand. Let the wind decide what deserves to remain.",
+    description: "Late Kassu develop the practice of 'sand-writing': all but the most essential knowledge is recorded in temporary media designed to be forgotten. Permanent inscription is reserved only for what has proven itself inviolable by repeated experiment. The paradox: as their standard of proof rises, less and less qualifies for permanence. Their archives empty while their science grows more sophisticated. The gap between knowledge and record widens until it becomes a void.",
+    significance: "The inverse of the Early Kassu impulse to record everything. The Late Kassu develop a philosophy of curated amnesia — a civilization that chooses to forget as a form of epistemological hygiene."
+  },
+  {
+    id: "e13",
+    year: "c. 1,000 BCE",
+    era: "Late Kassu — The Silence Age",
+    title: "The Shapeshifting Society — Governance as Non-Hierarchy",
+    location_id: "dur-kurigalzu",
+    type: "cultural",
+    ritual_text: "The highest point is where one stands. The lowest point is where one stands. Both are the same point, seen from different distances.",
+    description: "Kassu governance is structured not as a tree but as a graph — no apex, no nadir. Individuals rotate through roles: farmer to king to blacksmith. The transfer of power produces no conflict, no blood. The mechanism by which this rotation is governed has been systematically removed from every surviving record. Power, for the Kassu, preserves its value only through perpetual change.",
+    significance: "The Kassu model of non-hierarchical rotating governance, applied at civilizational scale and maintained without recorded violence, remains an anomaly in all known historical data."
+  },
+  {
+    id: "e14",
+    year: "c. 800 BCE",
+    era: "The Great Passive Act — Dissolution",
+    title: "Cessation of the Star-Registers",
+    location_id: "eridu",
+    type: "collapse",
+    ritual_text: "We have mapped the river until the map is heavier than the water. We put down the map. We listen to the river again.",
+    description: "The Late Kassu deliberately halt their astronomical observations — thousands of years of stellar records, discontinued. Not destroyed. Abandoned to the erosion of time. This is the first of four Great Passive Acts by which the Kassu civilization will unmake itself. The halt is not chaos — it is meticulously organized disengagement.",
+    significance: "An act without precedent in the archaeology of knowledge: a civilization choosing to stop knowing as a philosophical statement."
+  },
+  {
+    id: "e15",
+    year: "c. 700 BCE",
+    era: "The Great Passive Act — Dissolution",
+    title: "Dissolution of the Governing Compact",
+    location_id: "babylon",
+    type: "collapse",
+    ritual_text: "The structure held us upright. Now we practice standing without it. If we fall, we fall into the earth that was always here.",
+    description: "The Kassu non-hierarchical government is deliberately dissolved. Communities fragment into small autonomous units. The infrastructure for large-scale scientific collaboration — the thing that made their observatories, their metallurgy, their canal systems possible — is quietly retired. No war precipitates it. No catastrophe. Only the quiet choice of the last generation to hand nothing forward.",
+    significance: "The systematic dismantling of a civilization's coordination infrastructure from within, without violence, as an ideological act. The final form of the Kassu 'Act of Non-Act' applied to their own existence."
+  },
+  {
+    id: "e16",
+    year: "c. 650 BCE",
+    era: "The Great Passive Act — Dissolution",
+    title: "The Withdrawal of Teaching — Silence Chosen",
+    location_id: "dur-kurigalzu",
+    type: "collapse",
+    ritual_text: "We could tell you. We choose not to. Not from cruelty — from the deepest kindness we know: we let you find your own path in the dark, rather than blind you with a torch that is not yours.",
+    description: "The last generation of Kassu scholars refuses to transmit the complexities of their language, mathematical systems, and cosmology to their children. The knowledge is not destroyed — it is simply not passed on. The children grow up speaking a simpler tongue, thinking simpler thoughts. The civilization performs the final act of Rasanarrasa upon itself: it approaches completion but never arrives. It dissolves.",
+    significance: "The final, strangest act of Kassu history: not martyrdom, not conquest, not plague — but the voluntary choice to become silence. The civilization performs its own controlled theoretical death."
+  },
+  {
+    id: "e17",
+    year: "1354 (1975 CE)",
+    era: "Modern Rediscovery",
+    title: "Ministry Suppression Order — Documents Classified",
+    location_id: "susa",
+    type: "collapse",
+    ritual_text: "All documents relating to groups known as 'Kassu' are to be transferred immediately to the Annihilation Section. Mention of the names 'Pakzadan,' 'Khat-al-Ramad,' or 'Nazm-al-Hendesi' in any official document is prohibited.",
+    description: "A classified Ministry of Culture and Arts directive (Document 2487/s, dated 16 Mordad 1354) orders all Kassu-related materials transferred to the 'Annihilation Section.' The names of key Kassu concepts — Pakzadan, Khat-al-Ramad, Nazm-al-Hendesi — are forbidden in official documentation. Original excavated tablets are to be sent to Tehran under seal of secrecy. The team's archaeologist later dies in exile. The field camp in the Zagros foothills is found abandoned.",
+    significance: "The suppression order itself becomes a Kassu artifact: a modern state performing the ancient pattern of enforced forgetting — as though the civilization's final gesture of dissolution found willing heirs three thousand years later."
   }
-}
+];
 
-window.goL=function(n,btn){
-  if(!activeId)return;
-  document.querySelectorAll('.sb').forEach(b=>b.classList.remove('on'));
-  btn.classList.add('on');
-  const s=sites.find(x=>x.id===activeId);
-  const lc=document.getElementById('lc');
-  lc.style.opacity='0';
-  setTimeout(()=>{lc.innerHTML='';fillL(s,n,lc);lc.style.opacity='1';lc.style.transition='opacity .2s';},150);
+// Location map coordinates
+const LOC_MAP = {};
+LOCATIONS.forEach(l => { LOC_MAP[l.id] = l; });
+
+// Map pixel coords for locations
+const LOC_COORDS = {
+  "dur-kurigalzu":    { x: 268, y: 285 },
+  "susa":             { x: 430, y: 320 },
+  "nippur":           { x: 268, y: 355 },
+  "babylon":          { x: 252, y: 315 },
+  "ur":               { x: 235, y: 455 },
+  "assur":            { x: 338, y: 170 },
+  "zagros-highlands": { x: 500, y: 220 },
+  "eridu":            { x: 220, y: 505 },
+  "sahtaakhaman":     { x: 308, y: 238 },
+  "shatt-al-arab":    { x: 235, y: 540 }
 };
 
-drawMap();
+// ── RENDER TIMELINE ──
+function renderTimeline(filter) {
+  const scroll = document.getElementById('timeline-scroll');
+  scroll.innerHTML = '';
+  let lastEra = null;
+
+  EVENTS.forEach(ev => {
+    if (filter !== 'all' && ev.type !== filter) return;
+    if (ev.era !== lastEra) {
+      const eraDiv = document.createElement('div');
+      eraDiv.className = 'tl-era-label';
+      eraDiv.textContent = ev.era;
+      scroll.appendChild(eraDiv);
+      lastEra = ev.era;
+    }
+    const item = document.createElement('div');
+    item.className = 'tl-item';
+    item.dataset.id = ev.id;
+    item.dataset.type = ev.type;
+    item.innerHTML = `
+      <div class="tl-dot"></div>
+      <div class="tl-content">
+        <div class="tl-year">${ev.year}</div>
+        <div class="tl-title">${ev.title}</div>
+        <div class="tl-loc">${LOC_MAP[ev.location_id]?.name || ''}</div>
+      </div>
+    `;
+    item.addEventListener('click', () => selectEvent(ev.id));
+    scroll.appendChild(item);
+  });
+}
+
+// ── RENDER MAP LOCATIONS ──
+function renderMapLocations() {
+  const g = document.getElementById('map-locations');
+  LOCATIONS.forEach(loc => {
+    const c = LOC_COORDS[loc.id];
+    if (!c) return;
+    const group = document.createElementNS('http://www.w3.org/2000/svg','g');
+    group.setAttribute('class','map-loc');
+    group.setAttribute('data-locid', loc.id);
+    group.innerHTML = `
+      <circle class="outer" cx="${c.x}" cy="${c.y}" r="9"/>
+      <circle class="inner" cx="${c.x}" cy="${c.y}" r="3"/>
+      <text class="map-loc-label" x="${c.x + 12}" y="${c.y + 3}">${loc.name}</text>
+    `;
+    group.addEventListener('click', () => {
+      const eventsHere = EVENTS.filter(e => e.location_id === loc.id);
+      if (eventsHere.length > 0) selectEvent(eventsHere[0].id);
+    });
+    g.appendChild(group);
+  });
+}
+
+// ── RENDER MAP EVENTS ──
+function renderMapEvents() {
+  const g = document.getElementById('map-events');
+  EVENTS.forEach((ev, i) => {
+    const c = LOC_COORDS[ev.location_id];
+    if (!c) return;
+    // Spread multiple events at same location
+    const sameLocBefore = EVENTS.slice(0, i).filter(e => e.location_id === ev.location_id).length;
+    const angle = (sameLocBefore * 60) * Math.PI / 180;
+    const spread = sameLocBefore > 0 ? 18 : 0;
+    const ex = c.x + (spread ? Math.cos(angle) * spread : 0);
+    const ey = c.y + (spread ? Math.sin(angle) * spread : 0);
+
+    const dot = document.createElementNS('http://www.w3.org/2000/svg','g');
+    dot.setAttribute('class','map-event-dot');
+    dot.setAttribute('data-id', ev.id);
+    dot.setAttribute('data-type', ev.type);
+    dot.innerHTML = `<circle cx="${ex}" cy="${ey}" r="5"/>`;
+    dot.addEventListener('click', () => selectEvent(ev.id));
+    g.appendChild(dot);
+  });
+}
+
+// ── SELECT EVENT ──
+let activeId = null;
+
+function selectEvent(id) {
+  activeId = id;
+  const ev = EVENTS.find(e => e.id === id);
+  if (!ev) return;
+
+  // Highlight timeline item
+  document.querySelectorAll('.tl-item').forEach(el => el.classList.remove('active'));
+  const tlItem = document.querySelector(`.tl-item[data-id="${id}"]`);
+  if (tlItem) {
+    tlItem.classList.add('active');
+    tlItem.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
+    // Mobile glow
+    tlItem.classList.add('tap-glow');
+    setTimeout(() => tlItem.classList.remove('tap-glow'), 600);
+  }
+
+  // Highlight map location
+  document.querySelectorAll('.map-loc').forEach(el => el.classList.remove('active-loc'));
+  const locEl = document.querySelector(`.map-loc[data-locid="${ev.location_id}"]`);
+  if (locEl) locEl.classList.add('active-loc');
+
+  // Highlight map event dot
+  document.querySelectorAll('.map-event-dot circle').forEach(el => {
+    el.setAttribute('r','5');
+  });
+  const evDot = document.querySelector(`.map-event-dot[data-id="${id}"] circle`);
+  if (evDot) evDot.setAttribute('r','7');
+
+  // Fill detail panel
+  const typeColors = {
+    founding:  { bg: 'rgba(29,158,117,0.15)', color: '#5dcaa5' },
+    discovery: { bg: 'rgba(186,117,23,0.15)', color: '#e8c87a' },
+    ritual:    { bg: 'rgba(127,119,221,0.15)', color: '#af9ec4' },
+    cultural:  { bg: 'rgba(61,106,112,0.15)', color: '#7ab8c0' },
+    collapse:  { bg: 'rgba(194,82,32,0.15)', color: '#c25220' }
+  };
+  const tc = typeColors[ev.type] || typeColors.cultural;
+
+  document.getElementById('detail-type-badge').textContent = ev.type.toUpperCase();
+  document.getElementById('detail-type-badge').style.cssText = `background:${tc.bg};color:${tc.color};border:1px solid ${tc.color}40;`;
+  document.getElementById('detail-year').textContent = ev.year;
+  document.getElementById('detail-title').textContent = ev.title;
+  document.getElementById('detail-location').textContent =
+    '⬦ ' + (LOC_MAP[ev.location_id]?.name || '') + ' — ' + (LOC_MAP[ev.location_id]?.desc || '');
+  document.getElementById('detail-description').textContent = ev.description;
+  document.getElementById('detail-ritual').textContent = '"' + ev.ritual_text + '"';
+  document.getElementById('detail-significance').textContent = ev.significance;
+
+  document.getElementById('detail-panel').classList.add('visible');
+}
+
+// ── FILTERS ──
+document.querySelectorAll('.filter-btn').forEach(btn => {
+  btn.addEventListener('click', () => {
+    document.querySelectorAll('.filter-btn').forEach(b => b.classList.remove('active'));
+    btn.classList.add('active');
+    renderTimeline(btn.dataset.type);
+  });
+});
+
+// ── CLOSE DETAIL ──
+document.getElementById('detail-close').addEventListener('click', () => {
+  document.getElementById('detail-panel').classList.remove('visible');
+  document.querySelectorAll('.tl-item').forEach(el => el.classList.remove('active'));
+  document.querySelectorAll('.map-loc').forEach(el => el.classList.remove('active-loc'));
+  document.querySelectorAll('.map-event-dot circle').forEach(el => el.setAttribute('r','5'));
+  activeId = null;
+});
+
+// ── TORCH CURSOR (desktop) ──
+const torchEl = document.getElementById('torch-cursor');
+const grimeOverlay = document.getElementById('grime-overlay');
+const tlPanel = document.getElementById('timeline-panel');
+
+const isMobile = () => window.innerWidth <= 768;
+
+tlPanel.addEventListener('mousemove', (e) => {
+  if (isMobile()) return;
+  const rect = tlPanel.getBoundingClientRect();
+  const x = e.clientX - rect.left;
+  const y = e.clientY - rect.top;
+  const pctX = (x / rect.width * 100).toFixed(1) + '%';
+  const pctY = (y / rect.height * 100).toFixed(1) + '%';
+  grimeOverlay.style.setProperty('--mx', pctX);
+  grimeOverlay.style.setProperty('--my', pctY);
+
+  torchEl.style.left = e.clientX + 'px';
+  torchEl.style.top = e.clientY + 'px';
+  torchEl.style.display = 'block';
+});
+
+tlPanel.addEventListener('mouseleave', () => {
+  grimeOverlay.style.setProperty('--mx', '-200%');
+  grimeOverlay.style.setProperty('--my', '-200%');
+  torchEl.style.display = 'none';
+});
+
+// ── INIT ──
+renderTimeline('all');
+renderMapLocations();
+renderMapEvents();
+
+// Select first event on load after a short delay
+setTimeout(() => selectEvent(EVENTS[0].id), 400);
 </script>
+</body>
+</html>
