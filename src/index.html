@@ -1,0 +1,183 @@
+<!DOCTYPE html>
+<html lang="fa" dir="ltr">
+<head>
+  <meta charset="UTF-8"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Kassu Chronicles — The Forgotten Civilization</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com"/>
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin/>
+  <link href="https://fonts.googleapis.com/css2?family=Cinzel+Decorative:wght@400;700&family=Cinzel:wght@400;600&family=IM+Fell+English:ital@0;1&family=Crimson+Pro:ital,wght@0,300;0,400;1,300;1,400&display=swap" rel="stylesheet"/>
+  <link rel="stylesheet" href="./styles/main.css"/>
+</head>
+<body>
+
+  <!-- ── INTRO OVERLAY (first visit only) ── -->
+  <div id="intro-overlay">
+    <div id="intro-eyebrow">Codex Kassu — Forgotten Annals</div>
+    <div id="intro-divider"></div>
+    <div id="intro-stage">
+      <div id="phrase-container">
+        <p id="phrase-text"></p><span id="type-cursor">|</span>
+      </div>
+    </div>
+    <button id="audio-toggle" aria-label="Toggle ambient sound">Sound On</button>
+  </div>
+
+  <!-- ── TORCH CURSOR (desktop) ── -->
+  <div id="torch-cursor">
+    <img src="/flash_long.svg" alt=""/>
+  </div>
+
+  <!-- ── MAIN APP ── -->
+  <div id="app">
+
+    <!-- TIMELINE -->
+    <div id="timeline-panel">
+      <div id="timeline-header">
+        <div class="eyebrow">Codex Kassu — Forgotten Annals</div>
+        <h1>قوم کاسی<br/>The Kassu Chronicles</h1>
+        <div class="subtitle">Records recovered from the dust of Mesopotamia.<br/>Move the torch. Read what remains.</div>
+      </div>
+
+      <!-- Filter bar (commented out — uncomment to enable)
+      <div id="timeline-filters">
+        <button class="filter-btn active" data-type="all">All</button>
+        <button class="filter-btn" data-type="founding">Founding</button>
+        <button class="filter-btn" data-type="discovery">Discovery</button>
+        <button class="filter-btn" data-type="ritual">Ritual</button>
+        <button class="filter-btn" data-type="cultural">Cultural</button>
+        <button class="filter-btn" data-type="collapse">Collapse</button>
+      </div>
+      -->
+
+      <div id="timeline-scroll">
+        <!-- populated by timeline.js -->
+      </div>
+    </div>
+
+    <!-- MAP -->
+    <div id="map-panel">
+      <div id="grime-overlay"></div>
+      <svg id="map-svg" viewBox="0 0 700 600" preserveAspectRatio="xMidYMid meet">
+        <defs>
+          <filter id="glow-amber">
+            <feGaussianBlur stdDeviation="3" result="blur"/>
+            <feMerge><feMergeNode in="blur"/><feMergeNode in="SourceGraphic"/></feMerge>
+          </filter>
+          <pattern id="terrain-dots" x="0" y="0" width="8" height="8" patternUnits="userSpaceOnUse">
+            <circle cx="4" cy="4" r="0.5" fill="rgba(80,60,40,0.18)"/>
+          </pattern>
+        </defs>
+
+        <!-- Background wash -->
+        <rect width="700" height="600" fill="#0d1a1c"/>
+        <rect width="700" height="600" fill="url(#terrain-dots)"/>
+
+        <!-- Persian Gulf / Sea -->
+        <path d="M 460 520 Q 540 540 600 520 Q 650 500 680 480 L 700 600 L 400 600 Z" fill="rgba(20,50,70,0.6)" stroke="rgba(42,74,78,0.4)" stroke-width="0.7"/>
+        <text x="570" y="565" class="sea-label" text-anchor="middle">Persian Gulf</text>
+
+        <!-- Caspian haze top right -->
+        <path d="M 600 0 Q 660 30 680 80 Q 700 130 690 160 L 700 0 Z" fill="rgba(20,50,70,0.4)"/>
+        <text x="660" y="70" class="sea-label" font-size="9" text-anchor="middle" transform="rotate(-60 660 70)">Caspian</text>
+
+        <!-- Zagros mountains (right side) -->
+        <g class="mountain-mark">
+          <polygon points="490,80 505,55 520,80"/>
+          <polygon points="510,95 525,68 540,95"/>
+          <polygon points="530,75 545,52 558,75"/>
+          <polygon points="548,105 563,80 576,105"/>
+          <polygon points="565,130 580,105 595,130"/>
+          <polygon points="575,160 590,135 605,160"/>
+          <polygon points="580,195 595,170 608,195"/>
+          <polygon points="573,235 588,210 600,235"/>
+          <polygon points="560,270 575,245 588,270"/>
+          <polygon points="545,305 560,280 573,305"/>
+          <polygon points="530,335 545,310 560,335"/>
+          <polygon points="505,355 520,330 535,355"/>
+        </g>
+        <text x="570" y="220" class="region-label" font-size="9" transform="rotate(75 570 220)">Zagros Mts.</text>
+
+        <!-- Taurus mountains (top) -->
+        <g class="mountain-mark">
+          <polygon points="60,30 75,8 90,30"/>
+          <polygon points="100,25 115,5 130,25"/>
+          <polygon points="145,30 160,8 175,30"/>
+          <polygon points="195,22 210,4 225,22"/>
+          <polygon points="240,28 255,8 270,28"/>
+          <polygon points="290,20 305,2 320,20"/>
+        </g>
+        <text x="190" y="18" class="region-label" font-size="9" letter-spacing="3">Taurus Mountains</text>
+
+        <!-- Syria / Anatolia region -->
+        <path d="M 30 40 Q 200 30 280 60 Q 350 80 380 100 Q 320 120 240 130 Q 140 140 60 130 Z" class="region-fill" opacity="0.5"/>
+        <text x="130" y="110" class="region-label" text-anchor="middle">Upper Mesopotamia</text>
+
+        <!-- Tigris river -->
+        <path id="tigris-path" class="river" stroke="#1d6a7a" d="M 380 40 Q 370 80 360 120 Q 345 165 340 210 Q 330 260 328 300 Q 322 350 310 390 Q 298 430 288 460 Q 278 490 265 515 Q 255 535 245 550"/>
+        <text class="river-label">
+          <textPath href="#tigris-path" startOffset="15%" font-size="9">Tigris</textPath>
+        </text>
+
+        <!-- Euphrates river -->
+        <path id="euphrates-path" class="river" stroke="#1a5e6e" d="M 80 50 Q 120 70 160 100 Q 200 130 220 165 Q 240 200 245 240 Q 248 280 248 315 Q 245 355 238 390 Q 228 430 218 465 Q 208 495 195 525"/>
+        <text class="river-label">
+          <textPath href="#euphrates-path" startOffset="15%" font-size="9">Euphrates</textPath>
+        </text>
+
+        <!-- Minor river (Diyala) -->
+        <path class="river" stroke-width="1" stroke="rgba(29,106,122,0.5)" d="M 430 150 Q 400 200 375 240 Q 355 270 338 300"/>
+
+        <!-- Lower Mesopotamia fill -->
+        <path d="M 195 525 Q 220 545 260 550 Q 290 545 310 390 Q 322 350 328 300 Q 330 260 340 210 Q 345 165 360 120 Q 370 80 380 40 Q 300 50 240 60 Q 180 70 130 100 Q 110 120 80 50 Q 90 80 120 120 Q 140 145 160 100 Q 200 130 220 165 Q 240 200 245 240 Q 248 280 248 315 Q 245 355 238 390 Q 228 430 218 465 Z" fill="rgba(30,55,40,0.15)" stroke="none"/>
+
+        <!-- Region labels -->
+        <text x="280" y="200" class="region-label" text-anchor="middle" opacity="0.5">Assyria</text>
+        <text x="220" y="330" class="region-label" text-anchor="middle" opacity="0.5">Babylonia</text>
+        <text x="245" y="490" class="region-label" text-anchor="middle" opacity="0.5" font-size="9">Sumer</text>
+
+        <!-- Location markers & event dots — injected by map.js -->
+        <g id="map-locations"></g>
+        <g id="map-events"></g>
+      </svg>
+
+      <div id="map-title">
+        <div class="map-eyebrow">Ancient Mesopotamia</div>
+        <div class="map-heading">c. 13,000 BCE — 600 BCE</div>
+      </div>
+
+      <div id="map-legend">
+        <div class="legend-title">Event Type</div>
+        <div class="legend-item"><div class="legend-dot" style="background:rgba(29,158,117,0.7);border-color:#5dcaa5"></div>Founding</div>
+        <div class="legend-item"><div class="legend-dot" style="background:rgba(186,117,23,0.7);border-color:#e8c87a"></div>Discovery</div>
+        <div class="legend-item"><div class="legend-dot" style="background:rgba(127,119,221,0.6);border-color:#af9ec4"></div>Ritual</div>
+        <div class="legend-item"><div class="legend-dot" style="background:rgba(61,106,112,0.7);border-color:#7ab8c0"></div>Cultural</div>
+        <div class="legend-item"><div class="legend-dot" style="background:rgba(194,82,32,0.7);border-color:#c25220"></div>Collapse</div>
+      </div>
+
+      <div id="hint">Click an event<br/>to illuminate</div>
+    </div>
+
+  </div><!-- /#app -->
+
+  <!-- DETAIL PANEL — outside #app so it overlays the map -->
+  <div id="detail-panel">
+    <button id="detail-close">✕</button>
+    <div id="detail-header-bg">
+      <div id="detail-type-badge"></div>
+      <div id="detail-year"></div>
+      <div id="detail-title"></div>
+      <div id="detail-location"></div>
+    </div>
+    <div id="detail-description"></div>
+    <div id="detail-ritual-header">Ritual Text</div>
+    <div id="detail-ritual"></div>
+    <div id="detail-significance-block">
+      <div class="sig-label">Historical Significance</div>
+      <div id="detail-significance"></div>
+    </div>
+  </div>
+
+  <script type="module" src="./scripts/main.js"></script>
+</body>
+</html>

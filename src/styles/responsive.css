@@ -1,0 +1,56 @@
+@media (max-width: 768px) {
+  html, body { overflow: auto; }
+
+  #app {
+    flex-direction: column;
+    height: auto;
+    overflow: visible;
+  }
+
+  #timeline-panel {
+    width: 100%;
+    min-width: unset;
+    height: auto;
+    overflow: visible;
+    border-right: none;
+    border-bottom: 1px solid rgba(196,169,110,0.15);
+    cursor: auto;
+  }
+
+  #grime-overlay { display: none; }
+  #torch-cursor  { display: none !important; }
+
+  #timeline-scroll {
+    height: auto;
+    max-height: 45vh;
+    overflow-y: auto;
+  }
+
+  #map-panel {
+    height: 55vw;
+    min-height: 300px;
+    flex-shrink: 0;
+    cursor: auto;
+  }
+
+  #detail-panel {
+    top: unset;
+    right: unset;
+    bottom: 0;
+    left: 0;
+    width: 100%;
+    max-height: 55vh;
+    transform: translateY(20px);
+  }
+  #detail-panel.visible { transform: translateY(0); }
+
+  .tl-item { padding: 10px 16px; }
+
+  /* Mobile: tap-glow on items instead */
+  .tl-item.tap-glow { background: rgba(232,200,122,0.12) !important; }
+
+  /* Intro adjustments */
+  #intro-stage { padding: 0 24px; }
+  #phrase-text  { font-size: clamp(14px, 4.5vw, 20px); }
+  #audio-toggle { bottom: 16px; right: 16px; }
+}

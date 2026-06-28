@@ -1,0 +1,22 @@
+*, *::before, *::after {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+
+:root {
+  --ink: #0a0806;
+  --deep: #100d0a;
+  --parchment: #c4a96e;
+  --parchment-dim: #8a7248;
+  --parchment-pale: #e8d9b8;
+  --rust: #8b3a1a;
+  --rust-bright: #c25220;
+  --steel: #2a4a4e;
+  --steel-light: #3d6a70;
+  --amber: #e8c87a;
+  --amber-dim: #a8883a;
+  --shadow: rgba(0,0,0,0.85);
+  --grime: rgba(10,8,6,0.92);
+  --timeline-w: 420px;
+}

@@ -1,0 +1,19 @@
+{
+  "eyebrow": "Codex Kassu — Forgotten Annals",
+  "title_line1": "The Kassu Chronicles",
+  "subtitle": "Records recovered from the dust of Mesopotamia.\nMove the torch. Read what remains.",
+  "map_eyebrow": "Ancient Mesopotamia",
+  "map_heading": "c. 13,000 BCE — 600 BCE",
+  "hint": "Click an event\nto illuminate",
+  "legend_title": "Event Type",
+  "type_founding": "Founding",
+  "type_discovery": "Discovery",
+  "type_ritual": "Ritual",
+  "type_cultural": "Cultural",
+  "type_collapse": "Collapse",
+  "detail_close": "✕",
+  "detail_ritual_header": "Ritual Text",
+  "detail_significance_label": "Historical Significance",
+  "sound_on": "Sound On",
+  "sound_off": "Sound Off"
+}

@@ -1,0 +1,19 @@
+{
+  "eyebrow": "کدکس کاسی — سالنامه‌های فراموش‌شده",
+  "title_line1": "تاریخچه‌ی کاسی",
+  "subtitle": "اسناد بازیافته از گرد و خاک بین‌النهرین.\nمشعل را حرکت دهید. آنچه مانده را بخوانید.",
+  "map_eyebrow": "بین‌النهرین باستان",
+  "map_heading": "حدود ۱۳۰۰۰ پ.م. — ۶۰۰ پ.م.",
+  "hint": "روی رویداد کلیک کنید\nتا روشن شود",
+  "legend_title": "نوع رویداد",
+  "type_founding": "بنیان‌گذاری",
+  "type_discovery": "کشف",
+  "type_ritual": "آیین",
+  "type_cultural": "فرهنگی",
+  "type_collapse": "فروپاشی",
+  "detail_close": "✕",
+  "detail_ritual_header": "متن آیینی",
+  "detail_significance_label": "اهمیت تاریخی",
+  "sound_on": "صدا روشن",
+  "sound_off": "صدا خاموش"
+}
