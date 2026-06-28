@@ -61,35 +61,39 @@
     inset: 0;
     background: var(--grime);
     pointer-events: none;
-    z-index: 10;
+    z-index: 40;
     mask-image: radial-gradient(circle 280px at var(--mx,50%) var(--my,50%), transparent 0%, transparent 30%, rgba(0,0,0,0.4) 55%, rgba(0,0,0,0.85) 75%, black 100%);
     -webkit-mask-image: radial-gradient(circle 280px at var(--mx,50%) var(--my,50%), transparent 0%, transparent 30%, rgba(0,0,0,0.4) 55%, rgba(0,0,0,0.85) 75%, black 100%);
     transition: mask-position 0.05s, -webkit-mask-position 0.05s;
   }
 
-  #timeline-panel:hover #grime-overlay { opacity: 1; }
+  #map-panel:hover #grime-overlay, #detail-panel:hover #grime-overlay { opacity: 1; }
 
-  /* Custom cursor on timeline panel (desktop) */
-  #timeline-panel { cursor: none; }
+  /* Custom cursor on map panel (desktop) */
+  #map-panel { cursor: none; }
 
   #torch-cursor {
     position: fixed;
     width: 56px;
     height: 56px;
-    border-radius: 50%;
-    border: 1.5px solid rgba(232,200,122,0.7);
-    background: rgba(232,200,122,0.12);
     pointer-events: none;
     z-index: 100;
     transform: translate(-50%, -50%);
     display: none;
+    overflow:visible;
   }
   #torch-cursor::after {
     content: '';
+  }
+
+  #torch-cursor > img {
     position: absolute;
-    inset: 15px;
-    border-radius: 50%;
-    background: rgba(232,200,122,0.5);
+    top: 50%;
+    left: 50%;
+    width: 20px;
+    height: auto;
+    transform: translate(-50%, -50%);
+    pointer-events: none;
   }
 
   #timeline-header {
@@ -247,6 +251,7 @@
     position: relative;
     overflow: hidden;
     background: #0d1a1c;
+    z-index: 20;
   }
 
   #map-svg {
@@ -547,14 +552,13 @@
 </head>
 <body>
 
-<div id="torch-cursor"></div>
-
+  <div id="torch-cursor">
+    <img src="./flash_long.svg" alt="Flashlight" />
+  </div>
 <div id="app">
 
   <!-- ── TIMELINE ── -->
   <div id="timeline-panel">
-    <div id="grime-overlay"></div>
-
     <div id="timeline-header">
       <div class="eyebrow">Codex Kassu — Forgotten Annals</div>
       <h1>قوم کاسی<br/>The Kassu Chronicles</h1>
@@ -577,6 +581,7 @@
 
   <!-- ── MAP ── -->
   <div id="map-panel">
+    <div id="grime-overlay"></div>
     <svg id="map-svg" viewBox="0 0 700 600" preserveAspectRatio="xMidYMid meet">
       <defs>
         <filter id="glow-amber">
@@ -1073,13 +1078,14 @@ document.getElementById('detail-close').addEventListener('click', () => {
 // ── TORCH CURSOR (desktop) ──
 const torchEl = document.getElementById('torch-cursor');
 const grimeOverlay = document.getElementById('grime-overlay');
-const tlPanel = document.getElementById('timeline-panel');
+// const tlPanel = document.getElementById('timeline-panel');
+const mapPanel = document.getElementById('map-panel');
 
 const isMobile = () => window.innerWidth <= 768;
 
-tlPanel.addEventListener('mousemove', (e) => {
+mapPanel.addEventListener('mousemove', (e) => {
   if (isMobile()) return;
-  const rect = tlPanel.getBoundingClientRect();
+  const rect = mapPanel.getBoundingClientRect();
   const x = e.clientX - rect.left;
   const y = e.clientY - rect.top;
   const pctX = (x / rect.width * 100).toFixed(1) + '%';
@@ -1092,7 +1098,7 @@ tlPanel.addEventListener('mousemove', (e) => {
   torchEl.style.display = 'block';
 });
 
-tlPanel.addEventListener('mouseleave', () => {
+mapPanel.addEventListener('mouseleave', () => {
   grimeOverlay.style.setProperty('--mx', '-200%');
   grimeOverlay.style.setProperty('--my', '-200%');
   torchEl.style.display = 'none';
