@@ -31,6 +31,9 @@ export default function DetailPanel({ detailModel, setSelectedEventId, lang }) {
         <div className="sig-label">{t('detail_significance_label', lang)}</div>
         <div id="detail-significance">{detailModel?.significance ?? ''}</div>
       </div>
+       {detailModel?.image && (
+          <img id="detail-thumb" src={`${detailModel.image}`} alt={detailModel?.title ?? ''} />
+        )}
     </div>
   );
 }

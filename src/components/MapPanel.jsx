@@ -128,11 +128,11 @@ export default function MapPanel({
 
       <div id="map-legend">
         <div className="legend-title">{t('legend_title', lang)}</div>
-        <div className="legend-item"><div className="legend-dot" style={{ background: 'rgba(29,158,117,0.7)', borderColor: '#5dcaa5' }}></div>{t('type_founding', lang)}</div>
-        <div className="legend-item"><div className="legend-dot" style={{ background: 'rgba(186,117,23,0.7)', borderColor: '#e8c87a' }}></div>{t('type_discovery', lang)}</div>
-        <div className="legend-item"><div className="legend-dot" style={{ background: 'rgba(127,119,221,0.6)', borderColor: '#af9ec4' }}></div>{t('type_ritual', lang)}</div>
-        <div className="legend-item"><div className="legend-dot" style={{ background: 'rgba(61,106,112,0.7)', borderColor: '#7ab8c0' }}></div>{t('type_cultural', lang)}</div>
-        <div className="legend-item"><div className="legend-dot" style={{ background: 'rgba(194,82,32,0.7)', borderColor: '#c25220' }}></div>{t('type_collapse', lang)}</div>
+        <div className="legend-item"><div className="legend-dot" style={{ background: 'rgba(29,158,117,0.7)', borderColor: '#5dcaa5' }}></div>{t('type.founding', lang)}</div>
+        <div className="legend-item"><div className="legend-dot" style={{ background: 'rgba(186,117,23,0.7)', borderColor: '#e8c87a' }}></div>{t('type.discovery', lang)}</div>
+        <div className="legend-item"><div className="legend-dot" style={{ background: 'rgba(127,119,221,0.6)', borderColor: '#af9ec4' }}></div>{t('type.ritual', lang)}</div>
+        <div className="legend-item"><div className="legend-dot" style={{ background: 'rgba(61,106,112,0.7)', borderColor: '#7ab8c0' }}></div>{t('type.cultural', lang)}</div>
+        <div className="legend-item"><div className="legend-dot" style={{ background: 'rgba(194,82,32,0.7)', borderColor: '#c25220' }}></div>{t('type.collapse', lang)}</div>
       </div>
 
       <div id="hint">

@@ -164,6 +164,15 @@
   flex-shrink: 0;
   margin-top: 5px;
 }
+/* Thumbnail image for events (optional) */
+.tl-thumb {
+  width: 50px;
+  height: 50px;
+  object-fit: cover;
+  border-radius: 4px;
+  flex-shrink: 0;
+  margin-top: 2px;
+}
 .tl-item[data-type="founding"] .tl-dot {
   color: #5dcaa5;
 }

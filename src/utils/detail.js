@@ -35,5 +35,6 @@ export function getEventDetailModel(eventId, lang = 'en') {
     description: t(event.descriptionKey, lang),
     significance: t(event.significanceKey, lang),
     title: t(event.titleKey, lang),
+    image: event.image ? `/${event.image}` : null,
   };
 }

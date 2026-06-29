@@ -70,6 +70,9 @@ export default function TimelinePanel({
               onClick={() => setSelectedEventId(event.id)}
             >
               <div className="tl-dot"></div>
+              {event.image && (
+                <img className="tl-thumb" src={`/${event.image}`} alt={t(event.titleKey, lang)} />
+              )}
               <div className="tl-content">
                 <div className="tl-year">{t(event.yearKey, lang)}</div>
                 <div className="tl-title">{t(event.titleKey, lang)}</div>
