@@ -23,7 +23,6 @@ export function useIntroSequence(forcePlay = false, lang = 'en') {
   const [phraseFadeOut, setPhraseFadeOut] = useState(false);
   const [phrasePulse, setPhrasePulse] = useState(false);
   const [cursorHidden, setCursorHidden] = useState(false);
-  const [audioEnabled, setAudioEnabled] = useState(false);
   const [appRevealed, setAppRevealed] = useState(false);
 
   const audioRef = useRef(null);
@@ -43,7 +42,6 @@ export function useIntroSequence(forcePlay = false, lang = 'en') {
       if (audioRef.current) {
         audioRef.current.pause();
       }
-      setAudioEnabled(false);
     };
 
     const run = async () => {
@@ -118,20 +116,7 @@ export function useIntroSequence(forcePlay = false, lang = 'en') {
   }, []);
 
   const toggleAudio = () => {
-    if (!audioRef.current) {
-      const el = new Audio('/soul_serenity_sounds-ambient-noise-236388.mp3');
-      el.loop = true;
-      el.volume = 0.3;
-      audioRef.current = el;
-    }
-
-    if (audioEnabled) {
-      audioRef.current.pause();
-      setAudioEnabled(false);
-    } else {
-      audioRef.current.play().catch(() => {});
-      setAudioEnabled(true);
-    }
+    // audio is now managed at a higher level; no-op here
   };
 
   return {
@@ -144,7 +129,6 @@ export function useIntroSequence(forcePlay = false, lang = 'en') {
     phraseFadeOut,
     phrasePulse,
     cursorHidden,
-    audioEnabled,
     appRevealed,
     toggleAudio,
   };

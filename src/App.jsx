@@ -16,6 +16,10 @@ import TorchCursor from './components/TorchCursor.jsx';
 export default function App({ initialLang = 'en' }) {
   const [lang, setLang] = useState(normalizeLang(initialLang));
 
+  const audioRef = useRef(null);
+  const [audioEnabled, setAudioEnabled] = useState(false);
+  const autoStartAttempted = useRef(false);
+
   const intro = useIntroSequence(true, lang);
   const {
     filter,
@@ -60,6 +64,51 @@ export default function App({ initialLang = 'en' }) {
     setLang(prev => (prev === 'fa' ? 'en' : 'fa'));
   };
 
+  const toggleAudio = () => {
+    if (!audioRef.current) {
+      const el = new Audio('/soul_serenity_sounds-ambient-noise-236388.mp3');
+      el.loop = true;
+      el.volume = 0.3;
+      audioRef.current = el;
+    }
+
+    if (audioEnabled) {
+      audioRef.current.pause();
+      setAudioEnabled(false);
+    } else {
+      audioRef.current.play().catch(() => {});
+      setAudioEnabled(true);
+    }
+  };
+
+  useEffect(() => {
+    return () => {
+      if (audioRef.current) audioRef.current.pause();
+    };
+  }, []);
+
+  // Attempt to auto-start audio when the app is first revealed.
+  useEffect(() => {
+    if (!intro.appRevealed) return;
+    if (audioEnabled) return;
+    if (autoStartAttempted.current) return;
+
+    autoStartAttempted.current = true;
+
+    if (!audioRef.current) {
+      const el = new Audio('/soul_serenity_sounds-ambient-noise-236388.mp3');
+      el.loop = true;
+      el.volume = 0.3;
+      audioRef.current = el;
+    }
+
+    audioRef.current.play().then(() => {
+      setAudioEnabled(true);
+    }).catch(() => {
+      // Autoplay blocked; leave audio disabled. User can enable via UI.
+    });
+  }, [intro.appRevealed, audioEnabled]);
+
   return (
     <>
       {intro.introVisible ? (
@@ -72,8 +121,8 @@ export default function App({ initialLang = 'en' }) {
           phrasePulse={intro.phrasePulse}
           cursorHidden={intro.cursorHidden}
           audioVisible={intro.audioVisible}
-          audioEnabled={intro.audioEnabled}
-          toggleAudio={intro.toggleAudio}
+          audioEnabled={audioEnabled}
+          toggleAudio={toggleAudio}
           lang={lang}
           onToggleLanguage={toggleLanguage}
         />
