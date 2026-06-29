@@ -16,7 +16,7 @@ import TorchCursor from './components/TorchCursor.jsx';
 export default function App({ initialLang = 'en' }) {
   const [lang, setLang] = useState(normalizeLang(initialLang));
 
-  const intro = useIntroSequence(false, lang);
+  const intro = useIntroSequence(true, lang);
   const {
     filter,
     setFilter,
