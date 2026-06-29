@@ -1,5 +1,6 @@
 import { Fragment } from 'react';
 import './IntroOverlay.css';
+import { t } from '../utils/i18n.js';
 
 function renderMultilineText(text) {
   const parts = text.split('\n');
@@ -22,10 +23,11 @@ export default function IntroOverlay({
   audioVisible,
   audioEnabled,
   toggleAudio,
+  lang,
 }) {
   return (
     <div id="intro-overlay" className={overlayFadeOut ? 'fade-out' : ''}>
-      <div id="intro-eyebrow" className={eyebrowVisible ? 'visible' : ''}>Codex Kassu - Forgotten Annals</div>
+      <div id="intro-eyebrow" className={eyebrowVisible ? 'visible' : ''}>{t('eyebrow', lang)}</div>
       <div id="intro-divider" className={dividerVisible ? 'visible' : ''}></div>
       <div id="intro-stage">
         <div id="phrase-container">
@@ -41,10 +43,10 @@ export default function IntroOverlay({
       <button
         id="audio-toggle"
         className={audioVisible ? 'visible' : ''}
-        aria-label="Toggle ambient sound"
+        aria-label={audioEnabled ? t('audio_off', lang) : t('audio_on', lang)}
         onClick={toggleAudio}
       >
-        {audioEnabled ? 'Sound Off' : 'Sound On'}
+        {audioEnabled ? t('audio_off', lang) : t('audio_on', lang)}
       </button>
     </div>
   );

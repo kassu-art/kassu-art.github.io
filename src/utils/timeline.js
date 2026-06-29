@@ -1,11 +1,6 @@
-export const FILTERS = [
-  { id: 'all', label: 'All' },
-  { id: 'founding', label: 'Founding' },
-  { id: 'discovery', label: 'Discovery' },
-  { id: 'ritual', label: 'Ritual' },
-  { id: 'cultural', label: 'Cultural' },
-  { id: 'collapse', label: 'Collapse' },
-];
+import { t } from './i18n.js';
+
+export const FILTERS = ['all', 'founding', 'discovery', 'ritual', 'cultural', 'collapse'];
 
 export function filterEventsByType(events, filter = 'all') {
   if (filter === 'all') {
@@ -14,18 +9,20 @@ export function filterEventsByType(events, filter = 'all') {
   return events.filter(event => event.type === filter);
 }
 
-export function buildTimelineRows(events) {
+export function buildTimelineRows(events, lang = 'en') {
   const rows = [];
   let lastEra = null;
 
   events.forEach(event => {
-    if (event.era !== lastEra) {
+    const eraLabel = t(event.eraKey, lang);
+
+    if (eraLabel !== lastEra) {
       rows.push({
         kind: 'era',
-        key: `era-${event.era}`,
-        era: event.era,
+        key: `era-${event.eraKey}`,
+        era: eraLabel,
       });
-      lastEra = event.era;
+      lastEra = eraLabel;
     }
 
     rows.push({

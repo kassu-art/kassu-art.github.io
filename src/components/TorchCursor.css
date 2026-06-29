@@ -1,6 +1,7 @@
 /* ── TORCH CURSOR ── */
 #torch-cursor {
-  position: absolute;
+  position: fixed;
+  direction: ltr;
   width: 56px;
   height: 56px;
   pointer-events: none;

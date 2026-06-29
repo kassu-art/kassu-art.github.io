@@ -2,8 +2,13 @@ html, body {
   height: 100%;
   background: var(--ink);
   color: var(--parchment);
-  font-family: 'Crimson Pro', serif;
   overflow: hidden;
+}
+
+/* Persian/Arabic vintage font for RTL/FA locales */
+html[lang='fa'], html[dir='rtl'] {
+  -webkit-font-smoothing: antialiased;
+  font-feature-settings: "liga" 1;
 }
 
 #app {
@@ -13,6 +18,18 @@ html, body {
   overflow: hidden;
   opacity: 0;
   transition: opacity 1.2s ease;
+}
+
+html[dir='rtl'] #app {
+  flex-direction: row;
+}
+
+/* In RTL the detail panel anchors itself via inset-inline-end so no extra rule needed */
+/* Prevent the mobile column override from conflicting with RTL row-reverse */
+@media (max-width: 768px) {
+  html[dir='rtl'] #app {
+    flex-direction: column;
+  }
 }
 
 #app.revealed {

@@ -17,6 +17,81 @@
   --amber: #e8c87a;
   --amber-dim: #a8883a;
   --shadow: rgba(0,0,0,0.85);
-  --grime: rgba(10,8,6,0.92);
+  --grime: rgba(10,8,6,0.60);
   --timeline-w: 420px;
 }
+
+/*
+Typography design system
+
+- English (default):
+  - Body / readable text: `--font-body` = 'Crimson Pro' — a serif text face with good legibility for long passages.
+  - Display / headings: `--font-heading` = 'Cinzel' — an engraved, classical display serif used for eyebrow labels and small caps.
+  - Decorative headings: `--font-heading-decor` = 'Cinzel Decorative' — for prominent headings and titles.
+  - Verse / quoted lines: `--font-verse` = 'IM Fell English' — an old-style italic used for poetic or emphasis phrases.
+
+- Persian/Arabic (RTL):
+  - Body and headings switch to `--font-arabic` = 'Amiri' — a traditional Naskh-style Arabic script with a vintage feel suitable for Persian copy.
+
+Rules below map semantic selectors used across components to these tokenized font families.
+*/
+
+:root {
+  --font-body: 'Crimson Pro', 'Parastoo', serif;
+  --font-heading: 'Cinzel', 'Amiri', serif;
+  --font-heading-decor: 'Cinzel Decorative',  "Amiri", serif;
+  --font-verse: 'IM Fell English', "Parastoo", serif;
+}
+
+/* Base */
+body {
+  font-family: var(--font-body);
+  font-optical-sizing: auto;
+  font-style: normal;
+  -webkit-font-smoothing: antialiased;
+  font-feature-settings: "liga" 1;
+}
+
+/* RTL overrides: map the semantic font tokens to the chosen Arabic/Persian font.
+   This keeps all typography controlled via the same token names while
+   switching families for RTL locales. */
+/* html[dir='rtl'], html[lang='fa'] {
+  --font-body: 'Parastoo', serif;
+  --font-heading: 'Amiri', serif;
+  --font-heading-decor: 'Amiri', serif;
+  --font-verse: 'Amiri', serif;
+} */
+
+/* Semantic mappings (centralized overrides) */
+/* Eyebrows, small caps, and label text */
+#timeline-header .eyebrow,
+.tl-era-label,
+.filter-btn,
+.legend-title,
+.legend-item,
+.sig-label,
+#detail-type-badge,
+#detail-year,
+.tl-year,
+.tl-loc,
+.map-loc-label,
+#map-title .map-eyebrow {
+  font-family: var(--font-heading);
+}
+
+/* Decorative titles */
+#timeline-header h1,
+#detail-title,
+#map-title .map-heading {
+  font-family: var(--font-heading-decor);
+}
+
+/* Verse / phrase text */
+#phrase-text,
+#hint,
+.sea-label {
+  font-family: var(--font-verse);
+}
+
+/* Typewriter cursor uses body font by default; keep it as body font */
+

@@ -1,6 +1,7 @@
 import './TimelinePanel.css';
 import { LOC_MAP } from '../data/events.js';
 import { FILTERS } from '../utils/timeline.js';
+import { t } from '../utils/i18n.js';
 
 export default function TimelinePanel({
   filter,
@@ -10,35 +11,34 @@ export default function TimelinePanel({
   tapGlowId,
   timelineRows,
   timelineItemRefs,
+  lang,
+  onToggleLanguage,
 }) {
   return (
     <div id="timeline-panel">
       <div id="timeline-header">
-        <div className="eyebrow">Codex Kassu - Forgotten Annals</div>
+        <div className="eyebrow">{t('eyebrow', lang)}</div>
+        <button id="language-toggle" type="button" onClick={onToggleLanguage}>
+          {lang === 'fa' ? t('lang_en', lang) : t('lang_fa', lang)}
+        </button>
         <h1>
-          قوم کاسی
-          <br />
-          The Kassu Chronicles
+          {t('title_line1', lang)}
         </h1>
-        <div className="subtitle">
-          Records recovered from the dust of Mesopotamia.
-          <br />
-          Move the torch. Read what remains.
-        </div>
+        <div className="subtitle">{t('subtitle', lang)}</div>
       </div>
 
-      <div id="timeline-filters">
+      {/* <div id="timeline-filters">
         {FILTERS.map(item => (
           <button
-            key={item.id}
-            className={`filter-btn ${filter === item.id ? 'active' : ''}`}
-            data-type={item.id}
-            onClick={() => setFilter(item.id)}
+            key={item}
+            className={`filter-btn ${filter === item ? 'active' : ''}`}
+            data-type={item}
+            onClick={() => setFilter(item)}
           >
-            {item.label}
+            {t(`type.${item}`, lang)}
           </button>
         ))}
-      </div>
+      </div> */}
 
       <div id="timeline-scroll">
         {timelineRows.map(row => {
@@ -71,9 +71,9 @@ export default function TimelinePanel({
             >
               <div className="tl-dot"></div>
               <div className="tl-content">
-                <div className="tl-year">{event.year}</div>
-                <div className="tl-title">{event.title}</div>
-                <div className="tl-loc">{LOC_MAP[event.location_id]?.name ?? ''}</div>
+                <div className="tl-year">{t(event.yearKey, lang)}</div>
+                <div className="tl-title">{t(event.titleKey, lang)}</div>
+                <div className="tl-loc">{t(LOC_MAP[event.location_id]?.nameKey ?? '', lang)}</div>
               </div>
             </div>
           );

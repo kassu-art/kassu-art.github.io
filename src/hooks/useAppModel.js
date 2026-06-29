@@ -3,14 +3,14 @@ import { useEffect, useMemo, useState } from 'react';
 import { EVENTS } from '../data/events.js';
 import { buildTimelineRows, filterEventsByType } from '../utils/timeline.js';
 
-export function useAppModel(introReady) {
+export function useAppModel(introReady, lang = 'en') {
   const [filter, setFilter] = useState('all');
   const [selectedEventId, setSelectedEventId] = useState(null);
   const [tapGlowId, setTapGlowId] = useState(null);
 
   const visibleEvents = useMemo(() => filterEventsByType(EVENTS, filter), [filter]);
   const visibleEventIds = useMemo(() => new Set(visibleEvents.map(event => event.id)), [visibleEvents]);
-  const timelineRows = useMemo(() => buildTimelineRows(visibleEvents), [visibleEvents]);
+  const timelineRows = useMemo(() => buildTimelineRows(visibleEvents, lang), [visibleEvents, lang]);
 
   useEffect(() => {
     if (!introReady) {

@@ -1,4 +1,5 @@
 import { EVENTS, LOC_MAP } from '../data/events.js';
+import { t } from './i18n.js';
 
 export const TYPE_COLORS = {
   founding: { bg: 'rgba(29,158,117,0.15)', color: '#5dcaa5' },
@@ -16,7 +17,7 @@ export function getTypeColor(type) {
   return TYPE_COLORS[type] ?? TYPE_COLORS.cultural;
 }
 
-export function getEventDetailModel(eventId) {
+export function getEventDetailModel(eventId, lang = 'en') {
   const event = getEventById(eventId);
   if (!event) {
     return null;
@@ -26,9 +27,13 @@ export function getEventDetailModel(eventId) {
 
   return {
     event,
-    badgeText: event.type.toUpperCase(),
+    year: t(event.yearKey, lang),
+    badgeText: t(`type.${event.type}`, lang),
     typeColor: getTypeColor(event.type),
-    locationText: `⬦ ${location?.name ?? ''} — ${location?.desc ?? ''}`,
-    ritualText: `"${event.ritual_text}"`,
+    locationText: `⬦ ${t(location?.nameKey ?? '', lang)} — ${t(location?.descKey ?? '', lang)}`,
+    ritualText: `"${t(event.ritualTextKey, lang)}"`,
+    description: t(event.descriptionKey, lang),
+    significance: t(event.significanceKey, lang),
+    title: t(event.titleKey, lang),
   };
 }

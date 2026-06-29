@@ -1,6 +1,7 @@
 import { useEffect, useRef, useState } from 'react';
 
 import { INTRO_PHRASES } from '../data/intro-phrases.js';
+import { t } from '../utils/i18n.js';
 
 const STORAGE_KEY = 'kassu-visited';
 const CHAR_DELAY = 38;
@@ -12,7 +13,7 @@ function delay(ms) {
   return new Promise(resolve => setTimeout(resolve, ms));
 }
 
-export function useIntroSequence(forcePlay = false) {
+export function useIntroSequence(forcePlay = false, lang = 'en') {
   const [introVisible, setIntroVisible] = useState(true);
   const [overlayFadeOut, setOverlayFadeOut] = useState(false);
   const [eyebrowVisible, setEyebrowVisible] = useState(false);
@@ -57,9 +58,12 @@ export function useIntroSequence(forcePlay = false) {
       setSafeTimeout(() => setDividerVisible(true), 800);
       setSafeTimeout(() => setAudioVisible(true), 2200);
 
-      for (let i = 0; i < INTRO_PHRASES.length; i += 1) {
-        const phrase = INTRO_PHRASES[i];
-        const isLast = i === INTRO_PHRASES.length - 1;
+      const localizedPhrases = t('intro.phrases', lang);
+      const phraseSource = Array.isArray(localizedPhrases) && localizedPhrases.length > 0 ? localizedPhrases : INTRO_PHRASES;
+
+      for (let i = 0; i < phraseSource.length; i += 1) {
+        const phrase = phraseSource[i];
+        const isLast = i === phraseSource.length - 1;
 
         setPhraseText('');
         setPhraseFadeOut(false);

@@ -1,8 +1,11 @@
 import { EVENTS, LOCATIONS, LOC_COORDS } from '../data/events.js';
+import { t } from './i18n.js';
 
-export function getMapLocations() {
+export function getMapLocations(lang = 'en') {
   return LOCATIONS.map(location => ({
     ...location,
+    name: t(location.nameKey, lang),
+    desc: t(location.descKey, lang),
     coords: LOC_COORDS[location.id],
   })).filter(location => Boolean(location.coords));
 }

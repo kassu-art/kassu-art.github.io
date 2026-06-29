@@ -21,55 +21,141 @@
   background: var(--grime);
   pointer-events: none;
   z-index: 40;
-  mask-image: radial-gradient(circle 280px at var(--mx,50%) var(--my,50%), transparent 0%, transparent 30%, rgba(0,0,0,0.4) 55%, rgba(0,0,0,0.85) 75%, black 100%);
-  -webkit-mask-image: radial-gradient(circle 280px at var(--mx,50%) var(--my,50%), transparent 0%, transparent 30%, rgba(0,0,0,0.4) 55%, rgba(0,0,0,0.85) 75%, black 100%);
+  mask-image: radial-gradient(
+    circle 280px at var(--mx, 50%) var(--my, 50%),
+    transparent 0%,
+    transparent 30%,
+    rgba(0, 0, 0, 0.4) 55%,
+    rgba(0, 0, 0, 0.85) 75%,
+    black 100%
+  );
+  -webkit-mask-image: radial-gradient(
+    circle 280px at var(--mx, 50%) var(--my, 50%),
+    transparent 0%,
+    transparent 30%,
+    rgba(0, 0, 0, 0.4) 55%,
+    rgba(0, 0, 0, 0.85) 75%,
+    black 100%
+  );
 }
 
 /* ── MAP SVG ELEMENTS ── */
-.river { stroke: #2a5a6a; stroke-width: 1.8; fill: none; }
-.river-label { font-family: 'Cinzel', serif; font-size: 9px; fill: #2a5a6a; letter-spacing: 1.5px; }
-.region-fill { fill: rgba(42,74,78,0.12); stroke: rgba(42,74,78,0.2); stroke-width: 0.5; }
-.region-label { font-family: 'Cinzel', serif; font-size: 10px; fill: rgba(196,169,110,0.3); letter-spacing: 2px; text-transform: uppercase; }
-.sea-label { font-family: 'IM Fell English', serif; font-style: italic; font-size: 11px; fill: rgba(42,74,78,0.6); letter-spacing: 1px; }
-.mountain-mark { fill: rgba(80,60,40,0.35); stroke: rgba(80,60,40,0.4); stroke-width: 0.5; }
+.river {
+  stroke: #2a5a6a;
+  stroke-width: 1.8;
+  fill: none;
+}
+.river-label {
+  font-size: 9px;
+  fill: #2a5a6a;
+  letter-spacing: 1.5px;
+}
+.region-fill {
+  fill: rgba(42, 74, 78, 0.12);
+  stroke: rgba(42, 74, 78, 0.2);
+  stroke-width: 0.5;
+}
+.region-label {
+  font-size: 10px;
+  fill: rgba(196, 169, 110, 0.3);
+  letter-spacing: 2px;
+  text-transform: uppercase;
+}
+.sea-label {
+  font-style: italic;
+  font-size: 11px;
+  fill: rgba(42, 74, 78, 0.6);
+  letter-spacing: 1px;
+}
+.mountain-mark {
+  fill: rgba(80, 60, 40, 0.35);
+  stroke: rgba(80, 60, 40, 0.4);
+  stroke-width: 0.5;
+}
 
-.map-loc { cursor: pointer; transition: all 0.2s; }
-.map-loc circle.outer { fill: rgba(232,200,122,0.08); stroke: rgba(232,200,122,0.3); stroke-width: 1; }
-.map-loc circle.inner { fill: var(--amber-dim); }
-.map-loc:hover circle.outer { fill: rgba(232,200,122,0.18); stroke: rgba(232,200,122,0.7); }
-.map-loc:hover circle.inner { fill: var(--amber); }
-.map-loc.active-loc circle.outer { fill: rgba(232,200,122,0.25); stroke: var(--amber); stroke-width: 1.5; }
-.map-loc.active-loc circle.inner { fill: var(--amber); }
+.map-loc {
+  cursor: pointer;
+  transition: all 0.2s;
+}
+.map-loc circle.outer {
+  fill: rgba(232, 200, 122, 0.08);
+  stroke: rgba(232, 200, 122, 0.3);
+  stroke-width: 1;
+}
+.map-loc circle.inner {
+  fill: var(--amber-dim);
+}
+.map-loc:hover circle.outer {
+  fill: rgba(232, 200, 122, 0.18);
+  stroke: rgba(232, 200, 122, 0.7);
+}
+.map-loc:hover circle.inner {
+  fill: var(--amber);
+}
+.map-loc.active-loc circle.outer {
+  fill: rgba(232, 200, 122, 0.25);
+  stroke: var(--amber);
+  stroke-width: 1.5;
+}
+.map-loc.active-loc circle.inner {
+  fill: var(--amber);
+}
 
 .map-loc-label {
-  font-family: 'Cinzel', serif;
   font-size: 9.5px;
-  fill: rgba(196,169,110,0.65);
+  fill: rgba(196, 169, 110, 0.65);
   letter-spacing: 1px;
   pointer-events: none;
 }
-.map-loc:hover .map-loc-label, .map-loc.active-loc .map-loc-label { fill: var(--amber); }
+.map-loc:hover .map-loc-label,
+.map-loc.active-loc .map-loc-label {
+  fill: var(--amber);
+}
 
-.map-event-dot { cursor: pointer; }
-.map-event-dot circle { stroke-width: 1.5; fill-opacity: 0.85; transition: r 0.2s, fill-opacity 0.2s; }
-.map-event-dot:hover circle { fill-opacity: 1; }
-.map-event-dot[data-type="founding"]  circle { fill: rgba(29,158,117,0.8); stroke: #5dcaa5; }
-.map-event-dot[data-type="discovery"] circle { fill: rgba(186,117,23,0.8); stroke: var(--amber); }
-.map-event-dot[data-type="ritual"]    circle { fill: rgba(127,119,221,0.7); stroke: #af9ec4; }
-.map-event-dot[data-type="collapse"]  circle { fill: rgba(194,82,32,0.8); stroke: var(--rust-bright); }
-.map-event-dot[data-type="cultural"]  circle { fill: rgba(61,106,112,0.8); stroke: #7ab8c0; }
+.map-event-dot {
+  cursor: pointer;
+}
+.map-event-dot circle {
+  stroke-width: 1.5;
+  fill-opacity: 0.85;
+  transition:
+    r 0.2s,
+    fill-opacity 0.2s;
+}
+.map-event-dot:hover circle {
+  fill-opacity: 1;
+}
+.map-event-dot[data-type="founding"] circle {
+  fill: rgba(29, 158, 117, 0.8);
+  stroke: #5dcaa5;
+}
+.map-event-dot[data-type="discovery"] circle {
+  fill: rgba(186, 117, 23, 0.8);
+  stroke: var(--amber);
+}
+.map-event-dot[data-type="ritual"] circle {
+  fill: rgba(127, 119, 221, 0.7);
+  stroke: #af9ec4;
+}
+.map-event-dot[data-type="collapse"] circle {
+  fill: rgba(194, 82, 32, 0.8);
+  stroke: var(--rust-bright);
+}
+.map-event-dot[data-type="cultural"] circle {
+  fill: rgba(61, 106, 112, 0.8);
+  stroke: #7ab8c0;
+}
 
 /* ── MAP LEGEND ── */
 #map-legend {
   position: absolute;
   bottom: 20px;
   left: 20px;
-  background: rgba(10,8,6,0.85);
-  border: 1px solid rgba(196,169,110,0.2);
+  background: rgba(10, 8, 6, 0.85);
+  border: 1px solid rgba(196, 169, 110, 0.2);
   padding: 14px 16px;
 }
 .legend-title {
-  font-family: 'Cinzel', serif;
   font-size: 9px;
   letter-spacing: 3px;
   text-transform: uppercase;
@@ -82,14 +168,14 @@
   align-items: center;
   gap: 8px;
   margin-bottom: 6px;
-  font-family: 'Cinzel', serif;
   font-size: 9px;
   letter-spacing: 1.5px;
   text-transform: uppercase;
   color: var(--parchment-dim);
 }
 .legend-dot {
-  width: 8px; height: 8px;
+  width: 8px;
+  height: 8px;
   border-radius: 50%;
   border: 1.5px solid;
   flex-shrink: 0;
@@ -103,17 +189,15 @@
   pointer-events: none;
 }
 #map-title .map-eyebrow {
-  font-family: 'Cinzel', serif;
   font-size: 9px;
   letter-spacing: 4px;
   text-transform: uppercase;
-  color: rgba(196,169,110,0.4);
+  color: rgba(196, 169, 110, 0.4);
   margin-bottom: 4px;
 }
 #map-title .map-heading {
-  font-family: 'Cinzel Decorative', serif;
   font-size: 13px;
-  color: rgba(196,169,110,0.5);
+  color: rgba(196, 169, 110, 0.5);
   letter-spacing: 1px;
 }
 
@@ -122,16 +206,17 @@
   position: absolute;
   bottom: 20px;
   right: 20px;
-  font-family: 'IM Fell English', serif;
   font-style: italic;
   font-size: 11px;
-  color: rgba(196,169,110,0.35);
+  color: rgba(196, 169, 110, 0.35);
   text-align: right;
   pointer-events: none;
 }
 
 @media (max-width: 768px) {
-  #grime-overlay { display: none; }
+  #grime-overlay {
+    display: none;
+  }
 
   #map-panel {
     height: 55vw;

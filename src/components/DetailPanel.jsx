@@ -1,9 +1,10 @@
 import './DetailPanel.css';
+import { t } from '../utils/i18n.js';
 
-export default function DetailPanel({ detailModel, setSelectedEventId }) {
+export default function DetailPanel({ detailModel, setSelectedEventId, lang }) {
   return (
     <div id="detail-panel" className={detailModel ? 'visible' : ''}>
-      <button id="detail-close" onClick={() => setSelectedEventId(null)}>✕</button>
+      <button id="detail-close" aria-label={t('detail_close', lang)} onClick={() => setSelectedEventId(null)}>{t('detail_close', lang)}</button>
       <div id="detail-header-bg">
         <div
           id="detail-type-badge"
@@ -19,16 +20,16 @@ export default function DetailPanel({ detailModel, setSelectedEventId }) {
         >
           {detailModel?.badgeText ?? ''}
         </div>
-        <div id="detail-year">{detailModel?.event.year ?? ''}</div>
-        <div id="detail-title">{detailModel?.event.title ?? ''}</div>
+        <div id="detail-year">{detailModel?.year ?? ''}</div>
+        <div id="detail-title">{detailModel?.title ?? ''}</div>
         <div id="detail-location">{detailModel?.locationText ?? ''}</div>
       </div>
-      <div id="detail-description">{detailModel?.event.description ?? ''}</div>
-      <div id="detail-ritual-header">Ritual Text</div>
+      <div id="detail-description">{detailModel?.description ?? ''}</div>
+      <div id="detail-ritual-header">{t('detail_ritual_header', lang)}</div>
       <div id="detail-ritual">{detailModel?.ritualText ?? ''}</div>
       <div id="detail-significance-block">
-        <div className="sig-label">Historical Significance</div>
-        <div id="detail-significance">{detailModel?.event.significance ?? ''}</div>
+        <div className="sig-label">{t('detail_significance_label', lang)}</div>
+        <div id="detail-significance">{detailModel?.significance ?? ''}</div>
       </div>
     </div>
   );

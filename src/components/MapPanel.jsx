@@ -1,5 +1,6 @@
 import './MapPanel.css';
 import { getFirstEventIdByLocation } from '../utils/map.js';
+import { t } from '../utils/i18n.js';
 
 export default function MapPanel({
   handleMapMouseMove,
@@ -10,6 +11,7 @@ export default function MapPanel({
   selectedEventId,
   setSelectedEventId,
   activeLocationId,
+  lang,
 }) {
   return (
     <div id="map-panel" onMouseMove={handleMapMouseMove} onMouseLeave={handleMapMouseLeave}>
@@ -32,10 +34,10 @@ export default function MapPanel({
         <rect width="700" height="600" fill="url(#terrain-dots)"></rect>
 
         <path d="M 460 520 Q 540 540 600 520 Q 650 500 680 480 L 700 600 L 400 600 Z" fill="rgba(20,50,70,0.6)" stroke="rgba(42,74,78,0.4)" strokeWidth="0.7"></path>
-        <text x="570" y="565" className="sea-label" textAnchor="middle">Persian Gulf</text>
+        <text x="570" y="565" className="sea-label" textAnchor="middle">{t('map_sea_persian_gulf', lang)}</text>
 
         <path d="M 600 0 Q 660 30 680 80 Q 700 130 690 160 L 700 0 Z" fill="rgba(20,50,70,0.4)"></path>
-        <text x="660" y="70" className="sea-label" fontSize="9" textAnchor="middle" transform="rotate(-60 660 70)">Caspian</text>
+        <text x="660" y="70" className="sea-label" fontSize="9" textAnchor="middle" transform="rotate(-60 660 70)">{t('map_sea_caspian', lang)}</text>
 
         <g className="mountain-mark">
           <polygon points="490,80 505,55 520,80"></polygon>
@@ -51,7 +53,7 @@ export default function MapPanel({
           <polygon points="530,335 545,310 560,335"></polygon>
           <polygon points="505,355 520,330 535,355"></polygon>
         </g>
-        <text x="570" y="220" className="region-label" fontSize="9" transform="rotate(75 570 220)">Zagros Mts.</text>
+        <text x="570" y="220" className="region-label" fontSize="9" transform="rotate(75 570 220)">{t('map_region_zagros', lang)}</text>
 
         <g className="mountain-mark">
           <polygon points="60,30 75,8 90,30"></polygon>
@@ -61,10 +63,10 @@ export default function MapPanel({
           <polygon points="240,28 255,8 270,28"></polygon>
           <polygon points="290,20 305,2 320,20"></polygon>
         </g>
-        <text x="190" y="18" className="region-label" fontSize="9" letterSpacing="3">Taurus Mountains</text>
+        <text x="190" y="18" className="region-label" fontSize="9" letterSpacing="3">{t('map_region_taurus', lang)}</text>
 
         <path d="M 30 40 Q 200 30 280 60 Q 350 80 380 100 Q 320 120 240 130 Q 140 140 60 130 Z" className="region-fill" opacity="0.5"></path>
-        <text x="130" y="110" className="region-label" textAnchor="middle">Upper Mesopotamia</text>
+        <text x="130" y="110" className="region-label" textAnchor="middle">{t('map_region_upper_mesopotamia', lang)}</text>
 
         <path id="tigris-path" className="river" stroke="#1d6a7a" d="M 380 40 Q 370 80 360 120 Q 345 165 340 210 Q 330 260 328 300 Q 322 350 310 390 Q 298 430 288 460 Q 278 490 265 515 Q 255 535 245 550"></path>
         <text className="river-label">
@@ -80,9 +82,9 @@ export default function MapPanel({
 
         <path d="M 195 525 Q 220 545 260 550 Q 290 545 310 390 Q 322 350 328 300 Q 330 260 340 210 Q 345 165 360 120 Q 370 80 380 40 Q 300 50 240 60 Q 180 70 130 100 Q 110 120 80 50 Q 90 80 120 120 Q 140 145 160 100 Q 200 130 220 165 Q 240 200 245 240 Q 248 280 248 315 Q 245 355 238 390 Q 228 430 218 465 Z" fill="rgba(30,55,40,0.15)" stroke="none"></path>
 
-        <text x="280" y="200" className="region-label" textAnchor="middle" opacity="0.5">Assyria</text>
-        <text x="220" y="330" className="region-label" textAnchor="middle" opacity="0.5">Babylonia</text>
-        <text x="245" y="490" className="region-label" textAnchor="middle" opacity="0.5" fontSize="9">Sumer</text>
+        <text x="280" y="200" className="region-label" textAnchor="middle" opacity="0.5">{t('map_region_assyria', lang)}</text>
+        <text x="220" y="330" className="region-label" textAnchor="middle" opacity="0.5">{t('map_region_babylonia', lang)}</text>
+        <text x="245" y="490" className="region-label" textAnchor="middle" opacity="0.5" fontSize="9">{t('map_region_sumer', lang)}</text>
 
         <g id="map-locations">
           {mapLocations.map(location => (
@@ -120,23 +122,26 @@ export default function MapPanel({
       </svg>
 
       <div id="map-title">
-        <div className="map-eyebrow">Ancient Mesopotamia</div>
-        <div className="map-heading">c. 13,000 BCE - 600 BCE</div>
+        <div className="map-eyebrow">{t('map_eyebrow', lang)}</div>
+        <div className="map-heading">{t('map_heading', lang)}</div>
       </div>
 
       <div id="map-legend">
-        <div className="legend-title">Event Type</div>
-        <div className="legend-item"><div className="legend-dot" style={{ background: 'rgba(29,158,117,0.7)', borderColor: '#5dcaa5' }}></div>Founding</div>
-        <div className="legend-item"><div className="legend-dot" style={{ background: 'rgba(186,117,23,0.7)', borderColor: '#e8c87a' }}></div>Discovery</div>
-        <div className="legend-item"><div className="legend-dot" style={{ background: 'rgba(127,119,221,0.6)', borderColor: '#af9ec4' }}></div>Ritual</div>
-        <div className="legend-item"><div className="legend-dot" style={{ background: 'rgba(61,106,112,0.7)', borderColor: '#7ab8c0' }}></div>Cultural</div>
-        <div className="legend-item"><div className="legend-dot" style={{ background: 'rgba(194,82,32,0.7)', borderColor: '#c25220' }}></div>Collapse</div>
+        <div className="legend-title">{t('legend_title', lang)}</div>
+        <div className="legend-item"><div className="legend-dot" style={{ background: 'rgba(29,158,117,0.7)', borderColor: '#5dcaa5' }}></div>{t('type_founding', lang)}</div>
+        <div className="legend-item"><div className="legend-dot" style={{ background: 'rgba(186,117,23,0.7)', borderColor: '#e8c87a' }}></div>{t('type_discovery', lang)}</div>
+        <div className="legend-item"><div className="legend-dot" style={{ background: 'rgba(127,119,221,0.6)', borderColor: '#af9ec4' }}></div>{t('type_ritual', lang)}</div>
+        <div className="legend-item"><div className="legend-dot" style={{ background: 'rgba(61,106,112,0.7)', borderColor: '#7ab8c0' }}></div>{t('type_cultural', lang)}</div>
+        <div className="legend-item"><div className="legend-dot" style={{ background: 'rgba(194,82,32,0.7)', borderColor: '#c25220' }}></div>{t('type_collapse', lang)}</div>
       </div>
 
       <div id="hint">
-        Click an event
-        <br />
-        to illuminate
+        {t('hint', lang).split('\n').map((line, index) => (
+          <span key={`${line}-${index}`}>
+            {index > 0 ? <br /> : null}
+            {line}
+          </span>
+        ))}
       </div>
     </div>
   );

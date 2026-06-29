@@ -1,14 +1,14 @@
 export const LOCATIONS = [
-  { id: "dur-kurigalzu",   name: "Dur-Kurigalzu",    lat: 295, lng: 265, desc: "The great Kassu city — hub of their scientific and spiritual life." },
-  { id: "susa",            name: "Susa",              lat: 395, lng: 320, desc: "Eastern outpost where key Kassu tablets were excavated." },
-  { id: "nippur",          name: "Nippur",            lat: 280, lng: 355, desc: "Sacred city of Enlil; Kassu adopted and transformed its institutions." },
-  { id: "babylon",         name: "Babylon",           lat: 258, lng: 310, desc: "City where Kassu ruled as the longest dynasty of Babylonia." },
-  { id: "ur",              name: "Ur",                lat: 240, lng: 460, desc: "Ancient Sumerian city; site of Kassu astronomical records." },
-  { id: "assur",           name: "Assur",             lat: 340, lng: 168, desc: "Assyrian capital; rival and witness to Kassu civilization." },
-  { id: "zagros-highlands",name: "Zagros Highlands",  lat: 480, lng: 195, desc: "Mountain homeland from which Kassu cultural roots emerged." },
-  { id: "eridu",           name: "Eridu",             lat: 225, lng: 508, desc: "Oldest city of Sumer; site of early Kassu astronomical ritual." },
-  { id: "sahtaakhaman",    name: "Saht-Aakhaman",     lat: 320, lng: 230, desc: "Legendary Kassu temple-complex; site of the inscription 'Look until you become the eye.'" },
-  { id: "shatt-al-arab",   name: "Confluence Delta",  lat: 250, lng: 530, desc: "Where the rivers meet the sea; site of the Great Passage ritual." }
+  { id: 'dur-kurigalzu', lat: 295, lng: 265, nameKey: 'location_dur_kurigalzu_name', descKey: 'location_dur_kurigalzu_desc' },
+  { id: 'susa', lat: 395, lng: 320, nameKey: 'location_susa_name', descKey: 'location_susa_desc' },
+  { id: 'nippur', lat: 280, lng: 355, nameKey: 'location_nippur_name', descKey: 'location_nippur_desc' },
+  { id: 'babylon', lat: 258, lng: 310, nameKey: 'location_babylon_name', descKey: 'location_babylon_desc' },
+  { id: 'ur', lat: 240, lng: 460, nameKey: 'location_ur_name', descKey: 'location_ur_desc' },
+  { id: 'assur', lat: 340, lng: 168, nameKey: 'location_assur_name', descKey: 'location_assur_desc' },
+  { id: 'zagros-highlands', lat: 480, lng: 195, nameKey: 'location_zagros_highlands_name', descKey: 'location_zagros_highlands_desc' },
+  { id: 'eridu', lat: 225, lng: 508, nameKey: 'location_eridu_name', descKey: 'location_eridu_desc' },
+  { id: 'sahtaakhaman', lat: 320, lng: 230, nameKey: 'location_sahtaakhaman_name', descKey: 'location_sahtaakhaman_desc' },
+  { id: 'shatt-al-arab', lat: 250, lng: 530, nameKey: 'location_shatt_al_arab_name', descKey: 'location_shatt_al_arab_desc' },
 ];
 
 export const LOC_MAP = Object.fromEntries(LOCATIONS.map(l => [l.id, l]));
@@ -28,191 +28,21 @@ export const LOC_COORDS = {
 };
 
 export const EVENTS = [
-  {
-    id: "e01",
-    year: "c. 13,000 BCE",
-    era: "Ancient Origins",
-    title: "Silent Roots in the Stone-Lands",
-    location_id: "zagros-highlands",
-    type: "founding",
-    ritual_text: "Stone endures. Root endures. What is planted without sound grows deepest.",
-    description: "The Kassu emerge not with conquest or proclamation, but like roots threading stone — silent, organic, inevitable. Unlike the thunderous descents of Akkadian warriors or the imperial sweep of Assyria, their appearance is geological in patience. They do not bring new gods; their god is already here, hidden in the process of the world itself.",
-    significance: "The beginning of a civilization that would reject divine personality in favor of divine process — a philosophical revolution that predates Greek naturalism by millennia."
-  },
-  {
-    id: "e02",
-    year: "c. 7,000 BCE",
-    era: "Ancient Origins",
-    title: "The Founding Axiom — Faith in the Act",
-    location_id: "dur-kurigalzu",
-    type: "founding",
-    ritual_text: "Faith resides in action; and action, in seeing.",
-    description: "Carved into the foundations of Dur-Kurigalzu, the core axiom of Kassu thought is set down. Faith is not belief in the invisible — it is trust in a repeatable process. Heat metal to a certain temperature and it melts. Plant a seed in the correct season and it grows. The divine is causal, not personal.",
-    significance: "A theological revolution that makes observation sacred. The laboratory becomes the temple. The scribe becomes the priest."
-  },
-  {
-    id: "e03",
-    year: "c. 6,500 BCE",
-    era: "Early Kassu — The Bright Age",
-    title: "Construction of the Great Irrigation Canals",
-    location_id: "babylon",
-    type: "founding",
-    ritual_text: "Water asks no direction. It finds every crack. We only reveal the path already in the stone.",
-    description: "The Kassu engineer vast irrigation networks — not mere utilitarian works, but expressions of their theology of relationship. Water moving through stone is the divine act made visible: the force of becoming, channeled. The engineering achieves precision that would not be rediscovered for thousands of years.",
-    significance: "Canal architecture attributed to Kassu influence suggests knowledge of hydraulic principles predating known Sumerian records."
-  },
-  {
-    id: "e04",
-    year: "c. 5,800 BCE",
-    era: "Early Kassu — The Bright Age",
-    title: "Celestial Registry — The Great Tidal Record",
-    location_id: "eridu",
-    type: "discovery",
-    ritual_text: "The moon pulls the sea without touching it. The distant governs the near. Write down its rhythm, for the rhythm is the name of God.",
-    description: "Kassu astronomers establish precise records of tidal patterns in relation to lunar cycles, calling the relationship 'The Great Dance.' How they arrived at an understanding of gravitational influence across distance remains unknown. Their calculations enabled accurate tide prediction to a degree not matched until the early modern era.",
-    significance: "The concept of action-at-a-distance — the moon moving the sea — was the Kassu evidence for 'frictionless force.' It became the highest theological symbol of the Relational Divine."
-  },
-  {
-    id: "e05",
-    year: "c. 5,200 BCE",
-    era: "Early Kassu — The Bright Age",
-    title: "The Sacred Metallurgy — Bronze as Holy Covenant",
-    location_id: "dur-kurigalzu",
-    type: "ritual",
-    ritual_text: "When copper and tin surrender themselves to the fire together, a third thing is born that neither was alone. This is the sacred marriage. This is how gods make worlds.",
-    description: "Kassu metallurgists develop advanced alloying techniques including early forms of cast iron and primitive steel. But for them this is not industry — it is theology. The alchemical smith is a priest witnessing the divine covenant: two substances entering a union and producing an offspring with properties neither possessed. Frictionless combination is holy. The Kassu later view smelting as a necessary sin.",
-    significance: "Evidence of blast-furnace-like structures suggests Kassu iron technology centuries ahead of known archaeological record. The moral ambivalence around metallurgy prefigures the Late Kassu rejection of transformative action."
-  },
-  {
-    id: "e06",
-    year: "c. 4,400 BCE",
-    era: "Early Kassu — The Bright Age",
-    title: "The Theology of Relationships — Divinity as Verb",
-    location_id: "nippur",
-    type: "cultural",
-    ritual_text: "The gods live not in high places but in the distance between stone and flowing water — in the heat that transforms wood to ash — in the light that passes through leaves and becomes something else.",
-    description: "At Nippur, Kassu philosophers formalize the Theology of Relationships. Divinity is not noun but verb. Not Ishtar the goddess, but the Force of Binding (seen in metal alloys, family formation, stellar gravity) and the Force of Sundering (seen in stone fracture, battle's end, stellar death). The universe is a network of relationships; the sacred is the relational event itself.",
-    significance: "The clearest surviving articulation of Kassu metaphysics. Their god is impersonal, omnipresent, and knowable only through precise observation of interactions — a proto-scientific theology with no equivalent in the ancient world."
-  },
-  {
-    id: "e07",
-    year: "c. 3,700 BCE",
-    era: "Early Kassu — The Bright Age",
-    title: "The Temple Saht-Aakhaman — 'Look Until You Become the Eye'",
-    location_id: "sahtaakhaman",
-    type: "ritual",
-    ritual_text: "Behold until you become sight. The eye that has not dissolved into what it sees has not yet truly looked. This is the first commandment, and the last.",
-    description: "Construction of the great ritual-observatory complex Saht-Aakhaman, where the central commandment is inscribed: 'Look until you become the eye.' Here astronomical data, metallurgical tests, and hydrological measurements are conducted as acts of worship. The priests are scientists. The science is devotion. No idols. No sacrificial altars.",
-    significance: "The most sophisticated expression of Kassu empiricism-as-religion. The structure itself reflects the principle: its geometry encodes astronomical alignments and measurement standards. The temple is its own instrument."
-  },
-  {
-    id: "e08",
-    year: "c. 2,800 BCE",
-    era: "Early Kassu — The Bright Age",
-    title: "Forty-Six Steps from Nothingness",
-    location_id: "dur-kurigalzu",
-    type: "cultural",
-    ritual_text: "We count not years but thresholds. Each step is a door. Behind each door: another door. The corridor is the destination.",
-    description: "Kassu historians compose the 'Forty-Six Steps from Nothingness' — a chronicle of forty-six decisive threshold events in Kassu history, written with poetic-scientific precision. Their historiography is not linear triumph but recursive: each step a resonance of past steps, each event a pattern in a pattern. History, for them, is a waveform.",
-    significance: "The Kassu model of cyclical-but-non-repeating time ('Resonance-of-Was, Resonance-of-Is, Resonance-of-Will-Be') is unique in antiquity. It anticipates both quantum superposition and fractal self-similarity as conceptual structures."
-  },
-  {
-    id: "e09",
-    year: "c. 1,700 BCE",
-    era: "The Abyss Rift — Transition",
-    title: "The Abyss Rift — مغاک شکاف",
-    location_id: "dur-kurigalzu",
-    type: "collapse",
-    ritual_text: "We built a map of the river. With every line, we trusted the current less. Do we follow the map, or the river? The river knows only itself. The map knows nothing.",
-    description: "The Abyss Rift (Shekaf-e Maghak) is the great threshold between Early and Late Kassu civilization. Its nature is multivalent: simultaneously sudden and centuries in the making. Sacred structures are deliberately modified or unmade. Documents are composed in the 'sand-writing' style — made to be temporary. A growing culture of silence spreads against permanence. The cause is disputed: collective philosophical crisis, or the slow germination of a fatal insight?",
-    significance: "The single most documented and most mysterious event in Kassu history. It does not look like the fall of a civilization — it looks like a civilization deciding to become a question."
-  },
-  {
-    id: "e10",
-    year: "c. 1,500 BCE",
-    era: "Late Kassu — The Silence Age",
-    title: "Rasanarrasa — The Disease of Incompletion",
-    location_id: "babylon",
-    type: "cultural",
-    ritual_text: "The worm feeds the father. The worm feeds me. The worm feeds my child. Generation into generation, the worm feeds. Everything, always. The worm feeds.",
-    description: "Late Kassu thinkers formalize the concept of Rasanarrasa: the impossibility of any final ending. The action moves toward completion but never arrives. Water evaporating always loses some to 'curse' — no transition is perfectly clean. No alloy is perfectly pure. No observation occurs without friction. The insight, which began as liberation (the universe never stops becoming), has become a cognitive trap — paralysis masquerading as wisdom.",
-    significance: "The cultural pathology Kassu scholars called Rasanarrasa maps onto what modern psychology identifies as perfectionism-driven paralysis. Its expression as collective civilizational behavior is without historical parallel."
-  },
-  {
-    id: "e11",
-    year: "c. 1,400 BCE",
-    era: "Late Kassu — The Silence Age",
-    title: "Wu-Wei of the Kassu — The Act of Non-Act",
-    location_id: "nippur",
-    type: "ritual",
-    ritual_text: "Division approaches zero. The bread shared among none yields infinite bread. In emptiness: all things. To act: subtract yourself from the act.",
-    description: "Late Kassu mathematicians discover that dividing by a number approaching zero produces results approaching infinity. They take this as theological proof: the less one acts, the more the action yields. Observation (the most frictionless act) becomes the ideal. Any intervention in the physical world is 'premature' because the optimal frictionless path has not yet revealed itself. The result is a civilization that increasingly refuses to do anything at all.",
-    significance: "The mathematical concept of limits — independently discovered by Kassu thinkers — is here deployed not as calculation but as religious doctrine, leading to a theology of inaction that mirrors Taoist wu-wei but emerges from entirely different premises."
-  },
-  {
-    id: "e12",
-    year: "c. 1,200 BCE",
-    era: "Late Kassu — The Silence Age",
-    title: "Sand-Writing and the Architecture of Forgetting",
-    location_id: "susa",
-    type: "cultural",
-    ritual_text: "Only what is vital must be permanently marked. The rest is sand. Let the wind decide what deserves to remain.",
-    description: "Late Kassu develop the practice of 'sand-writing': all but the most essential knowledge is recorded in temporary media designed to be forgotten. Permanent inscription is reserved only for what has proven itself inviolable by repeated experiment. The paradox: as their standard of proof rises, less and less qualifies for permanence. Their archives empty while their science grows more sophisticated. The gap between knowledge and record widens until it becomes a void.",
-    significance: "The inverse of the Early Kassu impulse to record everything. The Late Kassu develop a philosophy of curated amnesia — a civilization that chooses to forget as a form of epistemological hygiene."
-  },
-  {
-    id: "e13",
-    year: "c. 1,000 BCE",
-    era: "Late Kassu — The Silence Age",
-    title: "The Shapeshifting Society — Governance as Non-Hierarchy",
-    location_id: "dur-kurigalzu",
-    type: "cultural",
-    ritual_text: "The highest point is where one stands. The lowest point is where one stands. Both are the same point, seen from different distances.",
-    description: "Kassu governance is structured not as a tree but as a graph — no apex, no nadir. Individuals rotate through roles: farmer to king to blacksmith. The transfer of power produces no conflict, no blood. The mechanism by which this rotation is governed has been systematically removed from every surviving record. Power, for the Kassu, preserves its value only through perpetual change.",
-    significance: "The Kassu model of non-hierarchical rotating governance, applied at civilizational scale and maintained without recorded violence, remains an anomaly in all known historical data."
-  },
-  {
-    id: "e14",
-    year: "c. 800 BCE",
-    era: "The Great Passive Act — Dissolution",
-    title: "Cessation of the Star-Registers",
-    location_id: "eridu",
-    type: "collapse",
-    ritual_text: "We have mapped the river until the map is heavier than the water. We put down the map. We listen to the river again.",
-    description: "The Late Kassu deliberately halt their astronomical observations — thousands of years of stellar records, discontinued. Not destroyed. Abandoned to the erosion of time. This is the first of four Great Passive Acts by which the Kassu civilization will unmake itself. The halt is not chaos — it is meticulously organized disengagement.",
-    significance: "An act without precedent in the archaeology of knowledge: a civilization choosing to stop knowing as a philosophical statement."
-  },
-  {
-    id: "e15",
-    year: "c. 700 BCE",
-    era: "The Great Passive Act — Dissolution",
-    title: "Dissolution of the Governing Compact",
-    location_id: "babylon",
-    type: "collapse",
-    ritual_text: "The structure held us upright. Now we practice standing without it. If we fall, we fall into the earth that was always here.",
-    description: "The Kassu non-hierarchical government is deliberately dissolved. Communities fragment into small autonomous units. The infrastructure for large-scale scientific collaboration — the thing that made their observatories, their metallurgy, their canal systems possible — is quietly retired. No war precipitates it. No catastrophe. Only the quiet choice of the last generation to hand nothing forward.",
-    significance: "The systematic dismantling of a civilization's coordination infrastructure from within, without violence, as an ideological act. The final form of the Kassu 'Act of Non-Act' applied to their own existence."
-  },
-  {
-    id: "e16",
-    year: "c. 650 BCE",
-    era: "The Great Passive Act — Dissolution",
-    title: "The Withdrawal of Teaching — Silence Chosen",
-    location_id: "dur-kurigalzu",
-    type: "collapse",
-    ritual_text: "We could tell you. We choose not to. Not from cruelty — from the deepest kindness we know: we let you find your own path in the dark, rather than blind you with a torch that is not yours.",
-    description: "The last generation of Kassu scholars refuses to transmit the complexities of their language, mathematical systems, and cosmology to their children. The knowledge is not destroyed — it is simply not passed on. The children grow up speaking a simpler tongue, thinking simpler thoughts. The civilization performs the final act of Rasanarrasa upon itself: it approaches completion but never arrives. It dissolves.",
-    significance: "The final, strangest act of Kassu history: not martyrdom, not conquest, not plague — but the voluntary choice to become silence. The civilization performs its own controlled theoretical death."
-  },
-  {
-    id: "e17",
-    year: "1354 (1975 CE)",
-    era: "Modern Rediscovery",
-    title: "Ministry Suppression Order — Documents Classified",
-    location_id: "susa",
-    type: "collapse",
-    ritual_text: "All documents relating to groups known as 'Kassu' are to be transferred immediately to the Annihilation Section. Mention of the names 'Pakzadan,' 'Khat-al-Ramad,' or 'Nazm-al-Hendesi' in any official document is prohibited.",
-    description: "A classified Ministry of Culture and Arts directive (Document 2487/s, dated 16 Mordad 1354) orders all Kassu-related materials transferred to the 'Annihilation Section.' The names of key Kassu concepts — Pakzadan, Khat-al-Ramad, Nazm-al-Hendesi — are forbidden in official documentation. Original excavated tablets are to be sent to Tehran under seal of secrecy. The team's archaeologist later dies in exile. The field camp in the Zagros foothills is found abandoned.",
-    significance: "The suppression order itself becomes a Kassu artifact: a modern state performing the ancient pattern of enforced forgetting — as though the civilization's final gesture of dissolution found willing heirs three thousand years later."
-  }
+  { id: 'e01', yearKey: 'event_e01_year', eraKey: 'era_ancient_origins', titleKey: 'event_e01_title', location_id: 'zagros-highlands', type: 'founding', ritualTextKey: 'event_e01_ritual', descriptionKey: 'event_e01_description', significanceKey: 'event_e01_significance' },
+  { id: 'e02', yearKey: 'event_e02_year', eraKey: 'era_ancient_origins', titleKey: 'event_e02_title', location_id: 'dur-kurigalzu', type: 'founding', ritualTextKey: 'event_e02_ritual', descriptionKey: 'event_e02_description', significanceKey: 'event_e02_significance' },
+  { id: 'e03', yearKey: 'event_e03_year', eraKey: 'era_early_bright_age', titleKey: 'event_e03_title', location_id: 'babylon', type: 'founding', ritualTextKey: 'event_e03_ritual', descriptionKey: 'event_e03_description', significanceKey: 'event_e03_significance' },
+  { id: 'e04', yearKey: 'event_e04_year', eraKey: 'era_early_bright_age', titleKey: 'event_e04_title', location_id: 'eridu', type: 'discovery', ritualTextKey: 'event_e04_ritual', descriptionKey: 'event_e04_description', significanceKey: 'event_e04_significance' },
+  { id: 'e05', yearKey: 'event_e05_year', eraKey: 'era_early_bright_age', titleKey: 'event_e05_title', location_id: 'dur-kurigalzu', type: 'ritual', ritualTextKey: 'event_e05_ritual', descriptionKey: 'event_e05_description', significanceKey: 'event_e05_significance' },
+  { id: 'e06', yearKey: 'event_e06_year', eraKey: 'era_early_bright_age', titleKey: 'event_e06_title', location_id: 'nippur', type: 'cultural', ritualTextKey: 'event_e06_ritual', descriptionKey: 'event_e06_description', significanceKey: 'event_e06_significance' },
+  { id: 'e07', yearKey: 'event_e07_year', eraKey: 'era_early_bright_age', titleKey: 'event_e07_title', location_id: 'sahtaakhaman', type: 'ritual', ritualTextKey: 'event_e07_ritual', descriptionKey: 'event_e07_description', significanceKey: 'event_e07_significance' },
+  { id: 'e08', yearKey: 'event_e08_year', eraKey: 'era_early_bright_age', titleKey: 'event_e08_title', location_id: 'dur-kurigalzu', type: 'cultural', ritualTextKey: 'event_e08_ritual', descriptionKey: 'event_e08_description', significanceKey: 'event_e08_significance' },
+  { id: 'e09', yearKey: 'event_e09_year', eraKey: 'era_transition', titleKey: 'event_e09_title', location_id: 'dur-kurigalzu', type: 'collapse', ritualTextKey: 'event_e09_ritual', descriptionKey: 'event_e09_description', significanceKey: 'event_e09_significance' },
+  { id: 'e10', yearKey: 'event_e10_year', eraKey: 'era_late_silence_age', titleKey: 'event_e10_title', location_id: 'babylon', type: 'cultural', ritualTextKey: 'event_e10_ritual', descriptionKey: 'event_e10_description', significanceKey: 'event_e10_significance' },
+  { id: 'e11', yearKey: 'event_e11_year', eraKey: 'era_late_silence_age', titleKey: 'event_e11_title', location_id: 'nippur', type: 'ritual', ritualTextKey: 'event_e11_ritual', descriptionKey: 'event_e11_description', significanceKey: 'event_e11_significance' },
+  { id: 'e12', yearKey: 'event_e12_year', eraKey: 'era_late_silence_age', titleKey: 'event_e12_title', location_id: 'susa', type: 'cultural', ritualTextKey: 'event_e12_ritual', descriptionKey: 'event_e12_description', significanceKey: 'event_e12_significance' },
+  { id: 'e13', yearKey: 'event_e13_year', eraKey: 'era_late_silence_age', titleKey: 'event_e13_title', location_id: 'dur-kurigalzu', type: 'cultural', ritualTextKey: 'event_e13_ritual', descriptionKey: 'event_e13_description', significanceKey: 'event_e13_significance' },
+  { id: 'e14', yearKey: 'event_e14_year', eraKey: 'era_passive_dissolution', titleKey: 'event_e14_title', location_id: 'eridu', type: 'collapse', ritualTextKey: 'event_e14_ritual', descriptionKey: 'event_e14_description', significanceKey: 'event_e14_significance' },
+  { id: 'e15', yearKey: 'event_e15_year', eraKey: 'era_passive_dissolution', titleKey: 'event_e15_title', location_id: 'babylon', type: 'collapse', ritualTextKey: 'event_e15_ritual', descriptionKey: 'event_e15_description', significanceKey: 'event_e15_significance' },
+  { id: 'e16', yearKey: 'event_e16_year', eraKey: 'era_passive_dissolution', titleKey: 'event_e16_title', location_id: 'dur-kurigalzu', type: 'collapse', ritualTextKey: 'event_e16_ritual', descriptionKey: 'event_e16_description', significanceKey: 'event_e16_significance' },
+  { id: 'e17', yearKey: 'event_e17_year', eraKey: 'era_modern_rediscovery', titleKey: 'event_e17_title', location_id: 'susa', type: 'collapse', ritualTextKey: 'event_e17_ritual', descriptionKey: 'event_e17_description', significanceKey: 'event_e17_significance' },
 ];
