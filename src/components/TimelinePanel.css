@@ -159,3 +159,25 @@
 }
 
 .tl-item.hidden { display: none; }
+
+@media (max-width: 768px) {
+  #timeline-panel {
+    width: 100%;
+    min-width: unset;
+    height: auto;
+    overflow: visible;
+    border-right: none;
+    border-bottom: 1px solid rgba(196,169,110,0.15);
+    cursor: auto;
+  }
+
+  #timeline-scroll {
+    height: auto;
+    max-height: 45vh;
+    overflow-y: auto;
+  }
+
+  .tl-item { padding: 10px 16px; }
+
+  .tl-item.tap-glow { background: rgba(232,200,122,0.12) !important; }
+}

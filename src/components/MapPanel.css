@@ -25,28 +25,6 @@
   -webkit-mask-image: radial-gradient(circle 280px at var(--mx,50%) var(--my,50%), transparent 0%, transparent 30%, rgba(0,0,0,0.4) 55%, rgba(0,0,0,0.85) 75%, black 100%);
 }
 
-/* ── TORCH CURSOR ── */
-#torch-cursor {
-  position: fixed;
-  width: 56px;
-  height: 56px;
-  pointer-events: none;
-  z-index: 100;
-  transform: translate(-50%, -50%);
-  display: none;
-  overflow: visible;
-}
-#torch-cursor::after { content: ''; }
-#torch-cursor > img {
-  position: absolute;
-  top: 50%;
-  left: 50%;
-  width: 20px;
-  height: auto;
-  transform: translate(-50%, -50%);
-  pointer-events: none;
-}
-
 /* ── MAP SVG ELEMENTS ── */
 .river { stroke: #2a5a6a; stroke-width: 1.8; fill: none; }
 .river-label { font-family: 'Cinzel', serif; font-size: 9px; fill: #2a5a6a; letter-spacing: 1.5px; }
@@ -150,4 +128,15 @@
   color: rgba(196,169,110,0.35);
   text-align: right;
   pointer-events: none;
+}
+
+@media (max-width: 768px) {
+  #grime-overlay { display: none; }
+
+  #map-panel {
+    height: 55vw;
+    min-height: 300px;
+    flex-shrink: 0;
+    cursor: auto;
+  }
 }

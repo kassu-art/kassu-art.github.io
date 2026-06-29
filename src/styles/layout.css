@@ -18,3 +18,13 @@ html, body {
 #app.revealed {
   opacity: 1;
 }
+
+@media (max-width: 768px) {
+  html, body { overflow: auto; }
+
+  #app {
+    flex-direction: column;
+    height: auto;
+    overflow: visible;
+  }
+}

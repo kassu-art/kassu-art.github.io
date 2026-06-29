@@ -133,3 +133,16 @@
   padding: 20px 20px 0;
   position: relative;
 }
+
+@media (max-width: 768px) {
+  #detail-panel {
+    top: unset;
+    right: unset;
+    bottom: 0;
+    left: 0;
+    width: 100%;
+    max-height: 55vh;
+    transform: translateY(20px);
+  }
+  #detail-panel.visible { transform: translateY(0); }
+}

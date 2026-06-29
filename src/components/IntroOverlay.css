@@ -137,3 +137,9 @@
   color: var(--amber);
   border-color: rgba(232,200,122,0.45);
 }
+
+@media (max-width: 768px) {
+  #intro-stage { padding: 0 24px; }
+  #phrase-text  { font-size: clamp(14px, 4.5vw, 20px); }
+  #audio-toggle { bottom: 16px; right: 16px; }
+}
