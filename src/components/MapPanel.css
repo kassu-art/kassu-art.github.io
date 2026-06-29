@@ -1,6 +1,7 @@
 /* ── MAP PANEL ── */
 #map-panel {
   flex: 1;
+  direction: ltr;
   height: 100%;
   position: relative;
   overflow: hidden;

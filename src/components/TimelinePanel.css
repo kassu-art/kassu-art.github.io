@@ -9,6 +9,7 @@
 }
 
 #timeline-header {
+  height: 180px;
   padding: 24px 28px 24px 16px;
   border-bottom: 1px solid rgba(196, 169, 110, 0.15);
   position: relative;
@@ -110,7 +111,7 @@
 /* ── SCROLL ── */
 #timeline-scroll {
   overflow-y: auto;
-  height: calc(100% - 140px);
+  height: calc(100% - 180px);
   padding: 8px 0 40px;
   position: relative;
   z-index: 5;
