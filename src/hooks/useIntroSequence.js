@@ -70,7 +70,7 @@ export function useIntroSequence(forcePlay = false, lang = 'en') {
         setPhrasePulse(false);
         setCursorHidden(false);
 
-        for (const char of phrase.text) {
+        for (const char of phrase) {
           if (cancelled) return;
           setPhraseText(prev => prev + char);
           await delay(CHAR_DELAY + Math.random() * CHAR_JITTER);
